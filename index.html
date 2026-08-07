@@ -117,11 +117,11 @@ transform:translateY(0);
 
 <body>
 
-<video id="opening" controls playsinline style="display:none;">
-<source src="./assets/Video.mp4" type="video/mp4">
+<video id="opening" autoplay muted playsinline>
+    <source src="./assets/Video.mp4" type="video/mp4">
 </video>
 
-<div class="kotak" id="home">
+<div class="kotak" id="home" style="display:none;">
 <img src="./assets/Logo%20kencana.png" class="logo" alt="Logo KENCANA RABIES">
 
 
@@ -137,17 +137,11 @@ MULAI
 <script>
 const video = document.getElementById("opening");
 const home = document.getElementById("home");
-const tombol = document.getElementById("mulai");
-tombol.onclick = function () {
-    home.style.display = "none";
-    video.style.display = "block";
-    video.currentTime = 0;
-    video.play();
-    setTimeout(function () {
-    window.location = "menu.html";
-}, 28000);
-};
 
+video.onended = function () {
+    video.style.display = "none";
+    home.style.display = "block";
+};
 </script>
 
 </body>
