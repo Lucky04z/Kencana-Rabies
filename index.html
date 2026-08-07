@@ -143,12 +143,11 @@ tombol.onclick = function () {
     video.style.display = "block";
     video.currentTime = 0;
     video.play();
+    setTimeout(function () {
+    window.location = "menu.html";
+}, 28000);
 };
 
-video.onended = function () {
-    window.location = "menu.html";
-};
-};
 </script>
 
 </body>
