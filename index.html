@@ -126,8 +126,7 @@ transform:translateY(0);
 
 
 <h1>KENCANA RABIES</h1>
-
-<button onclick="window.location='menu.html'">
+<button id="mulai">
 
 MULAI
 
@@ -138,10 +137,17 @@ MULAI
 <script>
 const video = document.getElementById("opening");
 const home = document.getElementById("home");
+const tombol = document.getElementById("mulai");
+tombol.onclick = function () {
+    home.style.display = "none";
+    video.style.display = "block";
+    video.currentTime = 0;
+    video.play();
+};
 
 video.onended = function () {
-    video.style.display = "none";
-    home.style.display = "block";
+    window.location = "menu.html";
+};
 };
 </script>
 
