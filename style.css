@@ -1,1 +1,89 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
+body{
+font-family:Arial,sans-serif;
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("./aktiva/Ikon labuan.jpg");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+color:white;
+text-align:center;
+min-height:100vh;
+}
+
+.header{
+padding:35px 20px;
+animation:muncul 1s ease;
+}
+
+.logo{
+width:150px;
+border-radius:50%;
+box-shadow:0 0 25px rgba(255,255,255,.35);
+margin-bottom:15px;
+}
+
+h1{
+color:#FFD54F;
+font-size:42px;
+margin-bottom:10px;
+text-shadow:0 3px 8px rgba(0,0,0,.5);
+}
+
+.menu{
+width:90%;
+max-width:720px;
+margin:auto;
+padding-bottom:40px;
+animation:muncul 1.3s ease;
+}
+
+.menu a{
+display:block;
+margin:18px 0;
+padding:20px;
+text-decoration:none;
+font-size:22px;
+font-weight:bold;
+color:white;
+
+background:rgba(255,255,255,.15);
+border:1px solid rgba(255,255,255,.25);
+backdrop-filter:blur(14px);
+-webkit-backdrop-filter:blur(14px);
+
+border-radius:20px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.35);
+
+transition:.35s;
+}
+
+.menu a:hover{
+background:rgba(255,255,255,.28);
+transform:translateY(-5px) scale(1.03);
+box-shadow:0 15px 35px rgba(0,0,0,.45);
+}
+
+.footer{
+padding:30px;
+font-size:14px;
+opacity:.85;
+}
+
+@keyframes muncul{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
