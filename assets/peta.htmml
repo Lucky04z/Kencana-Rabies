@@ -10,7 +10,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f8f4;
+    background: #f5f7f5;
     text-align: center;
 }
 
@@ -18,8 +18,26 @@ body {
     background: #075b32;
     color: white;
     padding: 15px;
-    font-size: 20px;
-    font-weight: bold;
+}
+
+.header h1 {
+    margin: 5px 0;
+    font-size: 22px;
+}
+
+.header p {
+    margin: 5px 0;
+}
+
+.peta {
+    padding: 15px;
+}
+
+.peta img {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    border-radius: 10px;
 }
 
 .kembali {
@@ -29,18 +47,12 @@ body {
     background: #075b32;
     color: white;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-weight: bold;
 }
 
-.peta {
-    width: 95%;
-    max-width: 1200px;
-    height: auto;
-    display: block;
-    margin: 10px auto 30px;
-    border-radius: 10px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+.kembali:hover {
+    background: #064526;
 }
 </style>
 </head>
@@ -48,18 +60,20 @@ body {
 <body>
 
 <div class="header">
-    PETA DISTRIBUSI GHPR
+    <h1>PETA DISTRIBUSI GHPR</h1>
+    <p>Wilayah Kerja UPTD Puskesmas Labuan Bajo</p>
+</div>
+
+<div class="peta">
+
+    <img src="assets/Peta%20GHPR.jpeg" 
+         alt="Peta Distribusi Kasus GHPR">
+
 </div>
 
 <a href="menu.html" class="kembali">
     ← Kembali ke Menu
 </a>
-
-<img 
-    src="assets/Peta%20GHPR.jpeg"
-    alt="Peta Distribusi Kasus GHPR"
-    class="peta"
->
 
 </body>
 </html>
