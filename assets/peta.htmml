@@ -66,13 +66,12 @@ body {
 
 <div class="peta">
 
-    <img src="assets/Peta%20GHPR.jpeg" 
+    <img src="Peta%20GHPR.jpeg"
          alt="Peta Distribusi Kasus GHPR">
 
 </div>
 
-<a href="menu.html" class="kembali">
-    ← Kembali ke Menu
+<a href="../menu.html" class="kembali">
 </a>
 
 </body>
