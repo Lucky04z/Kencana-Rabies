@@ -60,18 +60,25 @@ body {
 <body>
 
 <div class="header">
+
+    <img src="logo-peta-transparan.png"
+         alt="Logo Peta"
+         style="width:70px;height:70px;object-fit:contain;">
+
     <h1>PETA DISTRIBUSI GHPR</h1>
     <p>Wilayah Kerja UPTD Puskesmas Labuan Bajo</p>
+
 </div>
 
 <div class="peta">
 
-    <img src="Peta%20GHPR.jpeg"
-         alt="Peta Distribusi Kasus GHPR">
+   <img src="Peta%20GHPR.jpeg"
+     alt="Peta Distribusi Kasus GHPR">
 
 </div>
 
 <a href="../menu.html" class="kembali">
+    ← Kembali ke Menu
 </a>
 
 </body>
