@@ -33,10 +33,6 @@ body {
     font-weight: bold;
 }
 
-.kembali:hover {
-    background: #0a7542;
-}
-
 .peta {
     width: 95%;
     max-width: 1200px;
