@@ -472,14 +472,13 @@ fetch("./GHPR.csv")
             let totalDesa = 0;
 
             // Kolom kasus dimulai dari kolom Januari
-            for (let i = 2; i < cols.length; i++) {
+            for (let i = 2; i <= 13; i++) {
+    const nilai = parseInt(cols[i]);
 
-                const nilai = parseInt(cols[i]);
-
-                if (!isNaN(nilai)) {
-                    totalDesa += nilai;
-                }
-            }
+    if (!isNaN(nilai)) {
+        totalDesa += nilai;
+    }
+}
 
             if (totalDesa > 0) {
                 wilayahTerdampak++;
