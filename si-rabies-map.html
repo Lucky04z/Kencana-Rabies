@@ -442,31 +442,49 @@ Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan pen
 </footer>
 <script>
 fetch('./GHPR.csv')
-.then(response => response.text())
+.then(response => {
+    if (!response.ok) {
+        throw new Error('GHPR.csv tidak ditemukan');
+    }
+    return response.text();
+})
 .then(csv => {
 
     const rows = csv.trim().split(/\r?\n/);
-    const dataRows = rows.slice(3);
+
+    // Baris 0 = judul
+    // Baris 1 = header
+    // Baris 2 dst = data
+    const dataRows = rows.slice(2);
 
     let totalKasus = 0;
     let wilayahTerdampak = 0;
     let jumlahLaki = 0;
     let jumlahPerempuan = 0;
+
     let wilayahKasus = [];
     let jenisHewan = {};
 
     dataRows.forEach(row => {
 
-        const cols = row.split(';');
+        // GHPR.csv menggunakan koma sebagai pemisah
+        const cols = row.split(',');
 
         const desa = (cols[1] || '').trim();
 
+        // JUMLAH L dan JUMLAH P
         const laki = parseInt(cols[14]) || 0;
         const perempuan = parseInt(cols[15]) || 0;
+
+        // Jangan menghitung baris JUMLAH sebagai wilayah
+        if (desa.toUpperCase() === 'JUMLAH') {
+            return;
+        }
 
         jumlahLaki += laki;
         jumlahPerempuan += perempuan;
 
+        // Jenis hewan
         const hewan = (cols[17] || '').trim();
 
         if (hewan) {
@@ -474,13 +492,13 @@ fetch('./GHPR.csv')
                 (jenisHewan[hewan] || 0) + laki + perempuan;
         }
 
-        if (!desa || desa.toUpperCase() === 'JUMLAH') return;
+        // Total kasus per desa
+        const totalDesa = parseInt(cols[16]) || 0;
 
-        const totalDesa = parseInt(cols[16]);
-
-        if (!isNaN(totalDesa) && totalDesa > 0) {
+        if (desa && totalDesa > 0) {
 
             wilayahTerdampak++;
+
             totalKasus += totalDesa;
 
             wilayahKasus.push({
@@ -490,85 +508,143 @@ fetch('./GHPR.csv')
         }
     });
 
-    wilayahKasus.sort((a,b) => b.kasus - a.kasus);
+    // Urutkan dari kasus terbanyak
+    wilayahKasus.sort((a, b) => b.kasus - a.kasus);
 
-    const wilayahPrioritas = wilayahKasus
-        .filter(item => Number(item.kasus) > 20);
+    // Wilayah prioritas >20 kasus
+    const wilayahPrioritas = wilayahKasus.filter(
+        item => item.kasus > 20
+    );
 
-    /* DASHBOARD */
-    const cards = document.querySelectorAll('.card .value');
+    /* =========================
+       DASHBOARD
+    ========================= */
+
+    const cards =
+        document.querySelectorAll('.card .value');
 
     if (cards.length >= 4) {
+
         cards[0].textContent = totalKasus;
-        cards[1].textContent = wilayahTerdampak;
-        cards[2].textContent = wilayahPrioritas.length;
-        cards[3].textContent = 'Jan–Jun 2026';
+
+        cards[1].textContent =
+            wilayahTerdampak;
+
+        cards[2].textContent =
+            wilayahPrioritas.length;
+
+        cards[3].textContent =
+            'Jan–Jun 2026';
     }
 
-    /* ANALISIS WILAYAH */
+
+    /* =========================
+       ANALISIS DESA/KELURAHAN
+    ========================= */
+
     const analisisWilayah =
         document.getElementById('analisisWilayah');
 
     if (analisisWilayah) {
+
         analisisWilayah.innerHTML =
             '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
+
+            '<p>Distribusi kasus berdasarkan desa/kelurahan:</p>' +
+
             wilayahKasus
-            .map(item =>
-                `<p>${item.desa}: ${item.kasus} kasus</p>`
-            )
-            .join('');
+                .map(item =>
+                    `<p>📍 ${item.desa}: <strong>${item.kasus} kasus</strong></p>`
+                )
+                .join('');
     }
 
-    /* ANALISIS JENIS KELAMIN */
+
+    /* =========================
+       ANALISIS JENIS KELAMIN
+    ========================= */
+
     const analisisKelamin =
         document.getElementById('analisisKelamin');
 
     if (analisisKelamin) {
+
         analisisKelamin.innerHTML =
-            `<p><strong>Periode Januari–Juni 2026.</strong></p>
-             <p>Laki-laki: ${jumlahLaki} kasus</p>
-             <p>Perempuan: ${jumlahPerempuan} kasus</p>`;
+            '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
+
+            `<p>👨 Laki-laki: <strong>${jumlahLaki} kasus</strong></p>` +
+
+            `<p>👩 Perempuan: <strong>${jumlahPerempuan} kasus</strong></p>`;
     }
 
-    /* ANALISIS JENIS HEWAN */
+
+    /* =========================
+       ANALISIS JENIS HEWAN
+    ========================= */
+
     const analisisHewan =
         document.getElementById('analisisHewan');
 
     if (analisisHewan) {
 
-        const daftarHewan = Object.entries(jenisHewan)
-            .sort((a,b) => b[1] - a[1]);
+        const daftarHewan =
+            Object.entries(jenisHewan)
+            .sort((a, b) => b[1] - a[1]);
 
         analisisHewan.innerHTML =
             '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
+
             daftarHewan
-            .map(item =>
-                `<p>${item[0]}: ${item[1]} kasus</p>`
-            )
-            .join('');
+                .map(item =>
+                    `<p>🐕 ${item[0]}: <strong>${item[1]} kasus</strong></p>`
+                )
+                .join('');
     }
 
-    /* WILAYAH PRIORITAS */
+
+    /* =========================
+       WILAYAH PRIORITAS
+    ========================= */
+
     const analisisPrioritas =
         document.getElementById('analisisPrioritas');
 
     if (analisisPrioritas) {
 
         analisisPrioritas.innerHTML =
-            '<p><strong>Wilayah dengan lebih dari 20 kasus:</strong></p>' +
+            '<p><strong>Wilayah dengan >20 kasus:</strong></p>' +
+
             (
                 wilayahPrioritas.length
+
                 ? wilayahPrioritas
                     .map(item =>
-                        `<p>${item.desa}: ${item.kasus} kasus</p>`
+                        `<p>📍 ${item.desa}: <strong>${item.kasus} kasus</strong></p>`
                     )
                     .join('')
+
                 : '<p>Tidak ada wilayah prioritas.</p>'
             );
     }
 
 })
 .catch(error => {
-    console.error('Gagal membaca GHPR.csv:', error);
+
+    console.error(
+        'Gagal membaca GHPR.csv:',
+        error
+    );
+
+    document
+        .querySelectorAll(
+            '#analisisWilayah, #analisisKelamin, #analisisHewan, #analisisPrioritas'
+        )
+        .forEach(el => {
+
+            el.innerHTML =
+                '<p style="color:red;">' +
+                'Data GHPR gagal dimuat. Pastikan GHPR.csv berada di folder utama repository.' +
+                '</p>';
+        });
 });
 </script>
