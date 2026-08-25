@@ -482,11 +482,15 @@ if (!isNaN(nilai)) {
                 wilayahTerdampak++;
                 totalKasus += totalDesa;
 
-                wilayahKasus.push({
-                    desa: desa,
-                    kasus: totalDesa
-                });
-            }
+                if (totalDesa > 0) {
+    wilayahTerdampak++;
+    totalKasus += totalDesa;
+
+    wilayahKasus.push({
+        desa: desa,
+        kasus: totalDesa
+    });
+}
         });
 
         // Urutkan desa berdasarkan jumlah kasus
@@ -502,7 +506,7 @@ const jumlahWilayahPrioritas =
             cards[0].textContent = totalKasus;
             cards[1].textContent = wilayahTerdampak;
             cards[2].textContent = jumlahwilayahPrioritas;
-            cards[3].textContent = "Jan–Jun 2026";
+            cards[3].textContent = "Januari–Juni 2026";
         }
 
     })
