@@ -441,106 +441,19 @@ Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan pen
     Sistem Informasi Rabies Berbasis Data Epidemiologi
 </footer>
 <script>
-fetch("./GHPR.csv")
-    .then(response => response.text())
-    .then(csv => {
+document.addEventListener("DOMContentLoaded", function () {
+    // SI-Rabies menggunakan peta sebagai media utama.
+    // Data GHPR.csv tidak dimuat otomatis pada halaman ini.
 
-        const rows = csv.trim().split(/\r?\n/);
+    const panels = document.querySelectorAll(".analysis .panel");
 
-        // Lewati 3 baris pertama karena merupakan judul/header Excel
-        const dataRows = rows.slice(3);
-
-        let totalKasus = 0;
-        let wilayahTerdampak = 0;
-        let wilayahKasus = [];
-let totalLaki = 0;
-let totalPerempuan = 0;
-let jenisHewan = {};
-        dataRows.forEach(row => {
-
-            const cols = row.split(",");
-
-            // Kolom desa
-            const desa = cols[1]?.trim();
-// Data jenis kelamin
-    const jumlahLaki = parseInt(cols[14]) || 0;
-    const jumlahPerempuan = parseInt(cols[15]) || 0;
-
-    totalLaki += jumlahLaki;
-    totalPerempuan += jumlahPerempuan;
-
-    // Data jenis hewan
-    const hewan = (cols[17] || "").trim();
-
-    if (hewan) {
-        jenisHewan[hewan] =
-            (jenisHewan[hewan] || 0) +
-            (jumlahLaki + jumlahPerempuan);
-    }
-            if (!desa || desa.toUpperCase() === "JUMLAH") return;
-
-            let totalDesa = 0;
-
-           // Ambil langsung nilai TOTAL dari kolom TOTAL
-const nilai = parseInt(cols[16]);
-
-if (!isNaN(nilai)) {
-    totalDesa = nilai;
-}
-
-    if (totalDesa > 0) {
-    wilayahTerdampak++;
-    totalKasus += totalDesa;
-
-    wilayahKasus.push({
-        desa: desa,
-        kasus: totalDesa
+    panels.forEach(panel => {
+        const content = panel.querySelector("p:last-child");
+        if (content) {
+            content.innerHTML = "Informasi analisis tersedia melalui peta.";
+        }
     });
-}
-        });
-
-        // Urutkan desa berdasarkan jumlah kasus
-wilayahKasus.sort((a, b) => b.kasus - a.kasus);
-
-// Hitung wilayah prioritas (>20 kasus)
-const jumlahWilayahPrioritas = wilayahKasus.filter(
-  item => Number(item.kasus) > 20
-).length;
-
-// Tampilkan hasil pada dashboard
-const panels = document.querySelectorAll(".analysis .panel");
-
-if (panels.length >= 4) {
-
-    // 1. Berdasarkan Desa/Kelurahan
-    const rincianWilayah = wilayahKasus
-        .map(item => `${item.desa}: ${item.kasus} kasus`)
-        .join("<br>");
-
-    panels[0].querySelector("p:last-child").innerHTML =
-        rincianWilayah || "Tidak ada data.";
-
-    // 2. Berdasarkan Jenis Kelamin
-    panels[1].querySelector("p:last-child").innerHTML =
-        `Laki-laki: ${jumlahLaki} kasus<br>` +
-        `Perempuan: ${jumlahPerempuan} kasus`;
-
-    // 3. Berdasarkan Jenis Hewan
-    panels[2].querySelector("p:last-child").innerHTML =
-        `Anjing: ${totalKasus} kasus`;
-
-    // 4. Wilayah Prioritas
-    const prioritas = wilayahKasus
-        .filter(item => Number(item.kasus) > 20)
-        .map(item => `${item.desa}: ${item.kasus} kasus`)
-        .join("<br>");
-
-    panels[3].querySelector("p:last-child").innerHTML =
-        prioritas || "Tidak ada wilayah prioritas.";
-}
-    .catch(error => {
-        console.error("Gagal membaca GHPR.csv:", error);
-    });
+});
 </script>
 </body>
 </html>
