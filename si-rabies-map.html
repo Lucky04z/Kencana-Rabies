@@ -446,6 +446,75 @@ mendapatkan pelayanan kesehatan.
     <br>
     Sistem Informasi Rabies Berbasis Data Epidemiologi
 </footer>
+<script>
+fetch("./GHPR.csv")
+    .then(response => response.text())
+    .then(csv => {
 
+        const rows = csv.trim().split(/\r?\n/);
+
+        // Lewati 3 baris pertama karena merupakan judul/header Excel
+        const dataRows = rows.slice(3);
+
+        let totalKasus = 0;
+        let wilayahTerdampak = 0;
+        let wilayahKasus = [];
+
+        dataRows.forEach(row => {
+
+            const cols = row.split(",");
+
+            // Kolom desa
+            const desa = cols[1]?.trim();
+
+            if (!desa || desa.toUpperCase() === "JUMLAH") return;
+
+            let totalDesa = 0;
+
+            // Kolom kasus dimulai dari kolom Januari
+            for (let i = 2; i < cols.length; i++) {
+
+                const nilai = parseInt(cols[i]);
+
+                if (!isNaN(nilai)) {
+                    totalDesa += nilai;
+                }
+            }
+
+            if (totalDesa > 0) {
+                wilayahTerdampak++;
+                totalKasus += totalDesa;
+
+                wilayahKasus.push({
+                    desa: desa,
+                    kasus: totalDesa
+                });
+            }
+        });
+
+        // Urutkan desa berdasarkan jumlah kasus
+        wilayahKasus.sort((a, b) => b.kasus - a.kasus);
+
+        // Wilayah prioritas = desa dengan kasus tertinggi
+        const wilayahPrioritas =
+            wilayahKasus.length > 0
+            ? wilayahKasus[0].desa
+            : "—";
+
+        // Masukkan hasil ke kartu dashboard
+        const cards = document.querySelectorAll(".card .value");
+
+        if (cards.length >= 4) {
+            cards[0].textContent = totalKasus;
+            cards[1].textContent = wilayahTerdampak;
+            cards[2].textContent = wilayahPrioritas;
+            cards[3].textContent = "Jan–Jun 2026";
+        }
+
+    })
+    .catch(error => {
+        console.error("Gagal membaca GHPR.csv:", error);
+    });
+</script>
 </body>
 </html>
