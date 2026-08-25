@@ -327,94 +327,90 @@ Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan pen
 
 
  <!-- ANALISIS -->
-<h2 class="section-title">📈 Analisis Epidemiologi</h2>
+<h2 class="section-title">📊 Analisis Epidemiologi</h2>
 
 <div class="analysis">
 
-    <!-- DESA/KELURAHAN -->
-    <div class="panel">
-        <h3>📍 Berdasarkan Desa/Kelurahan</h3>
-
-        <p>
-            Menampilkan distribusi kasus GHPR berdasarkan
-            desa/kelurahan di wilayah kerja Puskesmas Labuan Bajo.
-        </p>
-
-       <div id="analisisHewan">
-    <p>Memuat data...</p>
-</div>
-    </div>
-
-    <!-- JENIS KELAMIN -->
-    <div class="panel">
-        <h3>👥 Berdasarkan Jenis Kelamin</h3>
-
-        <div id="analisisKelamin">
-            <p>Memuat data...</p>
-        </div>
-    </div>
-
-    <!-- JENIS HEWAN -->
-    <div class="panel">
-        <h3>🐕 Berdasarkan Jenis Hewan</h3>
-
-        <div id="analisisHewan">
-            <p>Memuat data...</p>
-        </div>
-    </div>
-
-    <!-- WILAYAH PRIORITAS -->
-    <div class="panel">
-        <h3>📍 Wilayah Prioritas</h3>
-
-        <p>
-            Wilayah prioritas ditentukan berdasarkan konsentrasi
-            kasus GHPR dan digunakan sebagai dasar penguatan
-            upaya pencegahan.
-        </p>
-
-        <div id="analisisPrioritas">
-            <p>Memuat data...</p>
-        </div>
-    </div>
-
-</div>
-    <div class="recommendation">
-
-      <h3>📢 Edukasi Masyarakat</h3>
-
-<p>
-Penguatan edukasi pencegahan GHPR dilakukan terutama pada wilayah dengan
-jumlah kasus yang lebih tinggi, meliputi pencegahan gigitan hewan,
-tindakan pertolongan pertama setelah gigitan, dan pentingnya segera
-mendapatkan pelayanan kesehatan.
-</p>
-
-    </div>
-
-    <div class="recommendation">
-
-        <h3>🤝 Koordinasi Lintas Sektor</h3>
-
-        <p>
-            Penguatan koordinasi dengan pihak terkait
-            berdasarkan hasil analisis epidemiologi dan
-            wilayah prioritas.
-        </p>
-
-    </div>
-<div class="recommendation">
-
-    <h3>🐕 Pencegahan Berdasarkan Jenis Hewan</h3>
-
+  <!-- DESA / KELURAHAN -->
+  <div class="panel">
+    <h3>📍 Berdasarkan Desa/Kelurahan</h3>
     <p>
-    Jenis hewan yang paling banyak menyebabkan kasus GHPR menjadi dasar
-    penguatan edukasi mengenai pencegahan gigitan, kewaspadaan terhadap
-    hewan penular rabies, dan pengendalian risiko di masyarakat.
+      Distribusi kasus GHPR berdasarkan desa/kelurahan
+      di wilayah kerja Puskesmas Labuan Bajo.
     </p>
 
+    <div id="analisisWilayah">
+      <p>Memuat data...</p>
+    </div>
+  </div>
+
+  <!-- JENIS KELAMIN -->
+  <div class="panel">
+    <h3>👥 Berdasarkan Jenis Kelamin</h3>
+
+    <div id="analisisKelamin">
+      <p>Memuat data...</p>
+    </div>
+  </div>
+
+  <!-- JENIS HEWAN -->
+  <div class="panel">
+    <h3>🐕 Berdasarkan Jenis Hewan</h3>
+
+    <div id="analisisHewan">
+      <p>Memuat data...</p>
+    </div>
+  </div>
+
+  <!-- WILAYAH PRIORITAS -->
+  <div class="panel">
+    <h3>📍 Wilayah Prioritas</h3>
+
+    <div id="analisisPrioritas">
+      <p>Memuat data...</p>
+    </div>
+  </div>
+
 </div>
 
+<!-- REKOMENDASI -->
+<div class="recommendation">
+
+  <h3>📢 Edukasi Masyarakat</h3>
+
+  <p>
+    Penguatan edukasi pencegahan GHPR terutama diarahkan
+    pada wilayah dengan jumlah kasus yang lebih tinggi,
+    meliputi pencegahan gigitan hewan, tindakan pertolongan
+    pertama setelah gigitan, dan pentingnya segera
+    mendapatkan pelayanan kesehatan.
+  </p>
+
+</div>
+
+<div class="recommendation">
+
+  <h3>🤝 Koordinasi Lintas Sektor</h3>
+
+  <p>
+    Penguatan koordinasi dengan pihak terkait berdasarkan
+    hasil analisis epidemiologi dan wilayah prioritas.
+  </p>
+
+</div>
+
+<div class="recommendation">
+
+  <h3>🐕 Pencegahan Berdasarkan Jenis Hewan</h3>
+
+  <p>
+    Jenis hewan yang paling banyak menyebabkan kasus GHPR
+    menjadi dasar penguatan edukasi mengenai pencegahan
+    gigitan, kewaspadaan terhadap hewan penular rabies,
+    dan pengendalian risiko di masyarakat.
+  </p>
+
+</div>
     <!-- MEDIA -->
     <h2 class="section-title">📚 Media Pendukung</h2>
 
@@ -452,19 +448,35 @@ fetch("./GHPR.csv")
         const rows = csv.trim().split(/\r?\n/);
 
         // Lewati 3 baris pertama karena merupakan judul/header Excel
-        const dataRows = rows.slice(2);
+        const dataRows = rows.slice(3);
 
         let totalKasus = 0;
         let wilayahTerdampak = 0;
         let wilayahKasus = [];
-
+let totalLaki = 0;
+let totalPerempuan = 0;
+let jenisHewan = {};
         dataRows.forEach(row => {
 
             const cols = row.split(",");
 
             // Kolom desa
             const desa = cols[1]?.trim();
+// Data jenis kelamin
+    const jumlahLaki = parseInt(cols[14]) || 0;
+    const jumlahPerempuan = parseInt(cols[15]) || 0;
 
+    totalLaki += jumlahLaki;
+    totalPerempuan += jumlahPerempuan;
+
+    // Data jenis hewan
+    const hewan = (cols[17] || "").trim();
+
+    if (hewan) {
+        jenisHewan[hewan] =
+            (jenisHewan[hewan] || 0) +
+            (jumlahLaki + jumlahPerempuan);
+    }
             if (!desa || desa.toUpperCase() === "JUMLAH") return;
 
             let totalDesa = 0;
@@ -496,16 +508,36 @@ const jumlahWilayahPrioritas = wilayahKasus.filter(
 ).length;
 
 // Tampilkan hasil pada dashboard
-const cards = document.querySelectorAll(".card .value");
+const panels = document.querySelectorAll(".analysis .panel");
 
-if (cards.length >= 4) {
-  cards[0].textContent = totalKasus;
-  cards[1].textContent = wilayahTerdampak;
-  cards[2].textContent = jumlahWilayahPrioritas || 0;
-  cards[3].textContent = "Jan–Jul 2026";
+if (panels.length >= 4) {
+
+    // 1. Berdasarkan Desa/Kelurahan
+    const rincianWilayah = wilayahKasus
+        .map(item => `${item.desa}: ${item.kasus} kasus`)
+        .join("<br>");
+
+    panels[0].querySelector("p:last-child").innerHTML =
+        rincianWilayah || "Tidak ada data.";
+
+    // 2. Berdasarkan Jenis Kelamin
+    panels[1].querySelector("p:last-child").innerHTML =
+        `Laki-laki: ${jumlahLaki} kasus<br>` +
+        `Perempuan: ${jumlahPerempuan} kasus`;
+
+    // 3. Berdasarkan Jenis Hewan
+    panels[2].querySelector("p:last-child").innerHTML =
+        `Anjing: ${totalKasus} kasus`;
+
+    // 4. Wilayah Prioritas
+    const prioritas = wilayahKasus
+        .filter(item => Number(item.kasus) > 20)
+        .map(item => `${item.desa}: ${item.kasus} kasus`)
+        .join("<br>");
+
+    panels[3].querySelector("p:last-child").innerHTML =
+        prioritas || "Tidak ada wilayah prioritas.";
 }
-
-    })
     .catch(error => {
         console.error("Gagal membaca GHPR.csv:", error);
     });
