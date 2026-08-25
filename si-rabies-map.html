@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SI-Rabies Map</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f5;
+    color: #17324d;
+}
+
+.header {
+    background: linear-gradient(135deg, #123b5d, #1d6b63);
+    color: white;
+    padding: 28px 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    font-size: 15px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section-title {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+/* KARTU INDIKATOR */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.card .icon {
+    font-size: 28px;
+}
+
+.card h3 {
+    margin: 8px 0 5px;
+    font-size: 15px;
+}
+
+.card .value {
+    font-size: 25px;
+    font-weight: bold;
+    color: #1d6b63;
+}
+
+/* ALUR */
+.flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.flow-box {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    border-top: 5px solid #1d6b63;
+}
+
+.flow-box strong {
+    display: block;
+    margin-bottom: 7px;
+}
+
+/* PETA */
+.map-box {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.map-placeholder {
+    height: 380px;
+    border-radius: 12px;
+    background: #e7eeee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.map-placeholder .map-icon {
+    font-size: 55px;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: #1d6b63;
+    color: white;
+    text-decoration: none;
+}
+
+/* ANALISIS */
+.analysis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.panel ul {
+    line-height: 1.8;
+}
+
+/* REKOMENDASI */
+.recommendation {
+    background: white;
+    border-left: 6px solid #e28b2c;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.recommendation h3 {
+    margin-top: 0;
+}
+
+/* MEDIA */
+.media {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.media-card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+/* FOOTER */
+footer {
+    margin-top: 40px;
+    padding: 25px;
+    background: #123b5d;
+    color: white;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* MOBILE */
+@media (max-width: 800px) {
+
+    .cards,
+    .flow,
+    .media {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .analysis {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .cards,
+    .flow,
+    .media {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>🗺️ SI-Rabies Map</h1>
+    <p>Sistem Informasi Rabies Berbasis Data Epidemiologi</p>
+    <p><strong>Optimalisasi Penyusunan Rekomendasi Pencegahan GHPR</strong></p>
+</header>
+
+<main class="container">
+
+    <!-- GAMBARAN DATA -->
+    <h2 class="section-title">📊 Gambaran Epidemiologi GHPR</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="icon">🩸</div>
+            <h3>Total Kasus GHPR</h3>
+            <div class="value">—</div>
+            <small>Data akan diisi</small>
+        </div>
+
+        <div class="card">
+            <div class="icon">📍</div>
+            <h3>Wilayah Terdampak</h3>
+            <div class="value">—</div>
+            <small>Desa/Kelurahan</small>
+        </div>
+
+        <div class="card">
+            <div class="icon">⚠️</div>
+            <h3>Wilayah Prioritas</h3>
+            <div class="value">—</div>
+            <small>Berdasarkan analisis</small>
+        </div>
+
+        <div class="card">
+            <div class="icon">📅</div>
+            <h3>Periode Data</h3>
+            <div class="value">—</div>
+            <small>Periode pengamatan</small>
+        </div>
+
+    </div>
+
+
+    <!-- KONSEP -->
+    <h2 class="section-title">🔎 Alur Informasi Epidemiologi</h2>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            <strong>1. Data GHPR</strong>
+            Pengumpulan data kasus
+        </div>
+
+        <div class="flow-box">
+            <strong>2. Pengolahan</strong>
+            Pembersihan dan validasi data
+        </div>
+
+        <div class="flow-box">
+            <strong>3. Analisis</strong>
+            Melihat pola dan distribusi
+        </div>
+
+        <div class="flow-box">
+            <strong>4. Pemetaan</strong>
+            Visualisasi wilayah kasus
+        </div>
+
+        <div class="flow-box">
+            <strong>5. Rekomendasi</strong>
+            Menentukan pencegahan prioritas
+        </div>
+
+    </div>
+
+
+    <!-- PETA -->
+    <h2 class="section-title">🗺️ Peta Sebaran GHPR</h2>
+
+    <div class="map-box">
+
+        <div class="map-placeholder">
+
+            <div class="map-icon">📍</div>
+
+            <h3>Peta Distribusi Spasial GHPR</h3>
+
+            <p>
+                Peta akan menampilkan persebaran kasus GHPR
+                berdasarkan wilayah kerja Puskesmas.
+            </p>
+
+            <a href="#" class="button">
+                Buka Peta GHPR
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ANALISIS -->
+    <h2 class="section-title">📈 Analisis Epidemiologi</h2>
+
+    <div class="analysis">
+
+        <div class="panel">
+
+            <h3>Tren Kasus</h3>
+
+            <ul>
+                <li>Tren kasus berdasarkan waktu</li>
+                <li>Perbandingan jumlah kasus</li>
+                <li>Periode dengan peningkatan kasus</li>
+            </ul>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>Karakteristik Kasus</h3>
+
+            <ul>
+                <li>Distribusi berdasarkan wilayah</li>
+                <li>Kelompok umur</li>
+                <li>Jenis hewan penular</li>
+                <li>Lokasi kejadian</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <!-- REKOMENDASI -->
+    <h2 class="section-title">💡 Rekomendasi Pencegahan</h2>
+
+    <div class="recommendation">
+
+        <h3>🎯 Wilayah Prioritas</h3>
+
+        <p>
+            Rekomendasi akan disusun berdasarkan wilayah
+            dengan jumlah atau konsentrasi kasus GHPR yang tinggi.
+        </p>
+
+    </div>
+
+    <div class="recommendation">
+
+        <h3>📢 Edukasi Masyarakat</h3>
+
+        <p>
+            Penguatan edukasi mengenai pencegahan GHPR,
+            tindakan pertama setelah gigitan, dan pentingnya
+            mendapatkan pertolongan kesehatan.
+        </p>
+
+    </div>
+
+    <div class="recommendation">
+
+        <h3>🤝 Koordinasi Lintas Sektor</h3>
+
+        <p>
+            Penguatan koordinasi dengan pihak terkait
+            berdasarkan hasil analisis epidemiologi dan
+            wilayah prioritas.
+        </p>
+
+    </div>
+
+
+    <!-- MEDIA -->
+    <h2 class="section-title">📚 Media Pendukung</h2>
+
+    <div class="media">
+
+        <div class="media-card">
+            <h3>📄 Poster</h3>
+            <p>Media edukasi pencegahan GHPR.</p>
+        </div>
+
+        <div class="media-card">
+            <h3>🎥 Video</h3>
+            <p>Video edukasi rabies dan GHPR.</p>
+        </div>
+
+        <div class="media-card">
+            <h3>📱 QR Code</h3>
+            <p>Akses cepat menuju informasi dan peta.</p>
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    SI-Rabies Map | Puskesmas Labuan Bajo
+    <br>
+    Sistem Informasi Rabies Berbasis Data Epidemiologi
+</footer>
+
+</body>
+</html>
