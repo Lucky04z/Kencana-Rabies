@@ -454,7 +454,7 @@ fetch("./GHPR.csv")
         const rows = csv.trim().split(/\r?\n/);
 
         // Lewati 3 baris pertama karena merupakan judul/header Excel
-        const dataRows = rows.slice(3);
+        const dataRows = rows.slice(2);
 
         let totalKasus = 0;
         let wilayahTerdampak = 0;
@@ -471,13 +471,11 @@ fetch("./GHPR.csv")
 
             let totalDesa = 0;
 
-            // Kolom kasus dimulai dari kolom Januari
-            for (let i = 2; i <= 13; i++) {
-    const nilai = parseInt(cols[i]);
+           // Ambil langsung nilai TOTAL dari kolom TOTAL
+const nilai = parseInt(cols[16]);
 
-    if (!isNaN(nilai)) {
-        totalDesa += nilai;
-    }
+if (!isNaN(nilai)) {
+    totalDesa = nilai;
 }
 
             if (totalDesa > 0) {
