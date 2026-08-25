@@ -441,19 +441,134 @@ Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan pen
     Sistem Informasi Rabies Berbasis Data Epidemiologi
 </footer>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // SI-Rabies menggunakan peta sebagai media utama.
-    // Data GHPR.csv tidak dimuat otomatis pada halaman ini.
+fetch('./GHPR.csv')
+.then(response => response.text())
+.then(csv => {
 
-    const panels = document.querySelectorAll(".analysis .panel");
+    const rows = csv.trim().split(/\r?\n/);
+    const dataRows = rows.slice(3);
 
-    panels.forEach(panel => {
-        const content = panel.querySelector("p:last-child");
-        if (content) {
-            content.innerHTML = "Informasi analisis tersedia melalui peta.";
+    let totalKasus = 0;
+    let wilayahTerdampak = 0;
+    let jumlahLaki = 0;
+    let jumlahPerempuan = 0;
+    let wilayahKasus = [];
+    let jenisHewan = {};
+
+    dataRows.forEach(row => {
+
+        const cols = row.split(';');
+
+        const desa = (cols[1] || '').trim();
+
+        const laki = parseInt(cols[14]) || 0;
+        const perempuan = parseInt(cols[15]) || 0;
+
+        jumlahLaki += laki;
+        jumlahPerempuan += perempuan;
+
+        const hewan = (cols[17] || '').trim();
+
+        if (hewan) {
+            jenisHewan[hewan] =
+                (jenisHewan[hewan] || 0) + laki + perempuan;
+        }
+
+        if (!desa || desa.toUpperCase() === 'JUMLAH') return;
+
+        const totalDesa = parseInt(cols[16]);
+
+        if (!isNaN(totalDesa) && totalDesa > 0) {
+
+            wilayahTerdampak++;
+            totalKasus += totalDesa;
+
+            wilayahKasus.push({
+                desa: desa,
+                kasus: totalDesa
+            });
         }
     });
+
+    wilayahKasus.sort((a,b) => b.kasus - a.kasus);
+
+    const wilayahPrioritas = wilayahKasus
+        .filter(item => Number(item.kasus) > 20);
+
+    /* DASHBOARD */
+    const cards = document.querySelectorAll('.card .value');
+
+    if (cards.length >= 4) {
+        cards[0].textContent = totalKasus;
+        cards[1].textContent = wilayahTerdampak;
+        cards[2].textContent = wilayahPrioritas.length;
+        cards[3].textContent = 'Jan–Jun 2026';
+    }
+
+    /* ANALISIS WILAYAH */
+    const analisisWilayah =
+        document.getElementById('analisisWilayah');
+
+    if (analisisWilayah) {
+        analisisWilayah.innerHTML =
+            '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
+            wilayahKasus
+            .map(item =>
+                `<p>${item.desa}: ${item.kasus} kasus</p>`
+            )
+            .join('');
+    }
+
+    /* ANALISIS JENIS KELAMIN */
+    const analisisKelamin =
+        document.getElementById('analisisKelamin');
+
+    if (analisisKelamin) {
+        analisisKelamin.innerHTML =
+            `<p><strong>Periode Januari–Juni 2026.</strong></p>
+             <p>Laki-laki: ${jumlahLaki} kasus</p>
+             <p>Perempuan: ${jumlahPerempuan} kasus</p>`;
+    }
+
+    /* ANALISIS JENIS HEWAN */
+    const analisisHewan =
+        document.getElementById('analisisHewan');
+
+    if (analisisHewan) {
+
+        const daftarHewan = Object.entries(jenisHewan)
+            .sort((a,b) => b[1] - a[1]);
+
+        analisisHewan.innerHTML =
+            '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
+            daftarHewan
+            .map(item =>
+                `<p>${item[0]}: ${item[1]} kasus</p>`
+            )
+            .join('');
+    }
+
+    /* WILAYAH PRIORITAS */
+    const analisisPrioritas =
+        document.getElementById('analisisPrioritas');
+
+    if (analisisPrioritas) {
+
+        analisisPrioritas.innerHTML =
+            '<p><strong>Wilayah dengan lebih dari 20 kasus:</strong></p>' +
+            (
+                wilayahPrioritas.length
+                ? wilayahPrioritas
+                    .map(item =>
+                        `<p>${item.desa}: ${item.kasus} kasus</p>`
+                    )
+                    .join('')
+                : '<p>Tidak ada wilayah prioritas.</p>'
+            );
+    }
+
+})
+.catch(error => {
+    console.error('Gagal membaca GHPR.csv:', error);
 });
 </script>
-</body>
-</html>
