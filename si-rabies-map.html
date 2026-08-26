@@ -339,44 +339,44 @@ Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan pen
 
 <div class="analysis">
 
-  <!-- DESA / KELURAHAN -->
-  <div class="panel">
+ <!-- DESA / KELURAHAN -->
+<div class="panel">
     <h3>📍 Berdasarkan Desa/Kelurahan</h3>
     <p>
-      Distribusi kasus GHPR berdasarkan desa/kelurahan
-      di wilayah kerja Puskesmas Labuan Bajo.
+        Distribusi kasus GHPR berdasarkan desa/kelurahan
+        di wilayah kerja Puskesmas Labuan Bajo.
     </p>
 
-    <div id="analisisWilayah">
-      <p>Memuat data...</p>
+    <div class="chart-container">
+        <canvas id="chartWilayah"></canvas>
     </div>
-  </div>
+</div>
 
   <!-- JENIS KELAMIN -->
   <div class="panel">
     <h3>👥 Berdasarkan Jenis Kelamin</h3>
 
-    <div id="analisisKelamin">
-      <p>Memuat data...</p>
-    </div>
+    <div class="chart-container">
+    <canvas id="chartKelamin"></canvas>
+</div>
   </div>
 
   <!-- JENIS HEWAN -->
   <div class="panel">
     <h3>🐕 Berdasarkan Jenis Hewan</h3>
 
-    <div id="analisisHewan">
-      <p>Memuat data...</p>
-    </div>
+    <div class="chart-container">
+    <canvas id="chartHewan"></canvas>
+</div>
   </div>
 
   <!-- WILAYAH PRIORITAS -->
   <div class="panel">
     <h3>📍 Wilayah Prioritas</h3>
 
-    <div id="analisisPrioritas">
-      <p>Memuat data...</p>
-    </div>
+   <div class="chart-container">
+    <canvas id="chartPrioritas"></canvas>
+</div>
   </div>
 
 </div>
@@ -448,6 +448,7 @@ Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan pen
     <br>
     Sistem Informasi Rabies Berbasis Data Epidemiologi
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 fetch('./GHPR.csv')
 .then(response => {
@@ -519,9 +520,9 @@ fetch('./GHPR.csv')
     // Urutkan dari kasus terbanyak
     wilayahKasus.sort((a, b) => b.kasus - a.kasus);
 
-    // Wilayah prioritas >20 kasus
+    // Wilayah prioritas >= 20 kasus
     const wilayahPrioritas = wilayahKasus.filter(
-        item => item.kasus > 20
+        item => item.kasus >= 20
     );
 
     /* =========================
