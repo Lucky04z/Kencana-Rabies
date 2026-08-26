@@ -547,96 +547,206 @@ fetch('./GHPR.csv')
     }
 
 
-    /* =========================
-       ANALISIS DESA/KELURAHAN
-    ========================= */
+  /* =========================
+   ANALISIS EPIDEMIOLOGI
+========================= */
 
-    const analisisWilayah =
-        document.getElementById('analisisWilayah');
+/* ANALISIS DESA / KELURAHAN */
+const chartWilayah = document.getElementById('chartWilayah');
 
-    if (analisisWilayah) {
+if (chartWilayah) {
 
-        analisisWilayah.innerHTML =
-            '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
+    new Chart(chartWilayah, {
+        type: 'bar',
 
-            '<p>Distribusi kasus berdasarkan desa/kelurahan:</p>' +
+        data: {
+            labels: wilayahKasus.map(item => item.desa),
 
-            wilayahKasus
-                .map(item =>
-                    `<p>📍 ${item.desa}: <strong>${item.kasus} kasus</strong></p>`
-                )
-                .join('');
-    }
+            datasets: [{
+                label: 'Jumlah Kasus GHPR',
+                data: wilayahKasus.map(item => item.kasus),
+                borderWidth: 1
+            }]
+        },
 
+        options: {
+            indexAxis: 'y',
 
-    /* =========================
-       ANALISIS JENIS KELAMIN
-    ========================= */
+            responsive: true,
 
-    const analisisKelamin =
-        document.getElementById('analisisKelamin');
+            plugins: {
+                legend: {
+                    display: false
+                },
 
-    if (analisisKelamin) {
+                title: {
+                    display: true,
+                    text: 'Distribusi Kasus Berdasarkan Desa/Kelurahan'
+                }
+            },
 
-        analisisKelamin.innerHTML =
-            '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
-
-            `<p>👨 Laki-laki: <strong>${jumlahLaki} kasus</strong></p>` +
-
-            `<p>👩 Perempuan: <strong>${jumlahPerempuan} kasus</strong></p>`;
-    }
-
-
-    /* =========================
-       ANALISIS JENIS HEWAN
-    ========================= */
-
-    const analisisHewan =
-        document.getElementById('analisisHewan');
-
-    if (analisisHewan) {
-
-        const daftarHewan =
-            Object.entries(jenisHewan)
-            .sort((a, b) => b[1] - a[1]);
-
-        analisisHewan.innerHTML =
-            '<p><strong>Periode Januari–Juni 2026.</strong></p>' +
-
-            daftarHewan
-                .map(item =>
-                    `<p>🐕 ${item[0]}: <strong>${item[1]} kasus</strong></p>`
-                )
-                .join('');
-    }
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5
+                    }
+                }
+            }
+        }
+    });
+}
 
 
-    /* =========================
-       WILAYAH PRIORITAS
-    ========================= */
+/* ANALISIS JENIS KELAMIN */
+const chartKelamin = document.getElementById('chartKelamin');
 
-    const analisisPrioritas =
-        document.getElementById('analisisPrioritas');
+if (chartKelamin) {
 
-    if (analisisPrioritas) {
+    new Chart(chartKelamin, {
 
-        analisisPrioritas.innerHTML =
-            '<p><strong>Wilayah dengan >20 kasus:</strong></p>' +
+        type: 'doughnut',
 
-            (
-                wilayahPrioritas.length
+        data: {
+            labels: [
+                'Laki-laki',
+                'Perempuan'
+            ],
 
-                ? wilayahPrioritas
-                    .map(item =>
-                        `<p>📍 ${item.desa}: <strong>${item.kasus} kasus</strong></p>`
-                    )
-                    .join('')
+            datasets: [{
+                data: [
+                    jumlahLaki,
+                    jumlahPerempuan
+                ],
 
-                : '<p>Tidak ada wilayah prioritas.</p>'
-            );
-    }
+                borderWidth: 1
+            }]
+        },
 
-})
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+                    position: 'bottom'
+                },
+
+                title: {
+                    display: true,
+                    text: 'Distribusi Kasus Berdasarkan Jenis Kelamin'
+                }
+            }
+        }
+    });
+}
+
+
+/* ANALISIS JENIS HEWAN */
+const chartHewan = document.getElementById('chartHewan');
+
+if (chartHewan) {
+
+    const daftarHewan =
+        Object.entries(jenisHewan)
+        .sort((a, b) => b[1] - a[1]);
+
+    new Chart(chartHewan, {
+
+        type: 'doughnut',
+
+        data: {
+
+            labels: daftarHewan.map(item => item[0]),
+
+            datasets: [{
+
+                data: daftarHewan.map(item => item[1]),
+
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+                    position: 'bottom'
+                },
+
+                title: {
+                    display: true,
+                    text: 'Distribusi Kasus Berdasarkan Jenis Hewan'
+                }
+            }
+        }
+    });
+}
+
+
+/* ANALISIS WILAYAH PRIORITAS */
+const chartPrioritas =
+    document.getElementById('chartPrioritas');
+
+if (chartPrioritas) {
+
+    new Chart(chartPrioritas, {
+
+        type: 'bar',
+
+        data: {
+
+            labels:
+                wilayahPrioritas.map(item => item.desa),
+
+            datasets: [{
+
+                label: 'Jumlah Kasus',
+
+                data:
+                    wilayahPrioritas.map(item => item.kasus),
+
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                title: {
+
+                    display: true,
+
+                    text:
+                        'Wilayah Prioritas (≥20 Kasus)'
+                }
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+                        stepSize: 5
+                    }
+                }
+            }
+        }
+    });
+}
 .catch(error => {
 
     console.error(
