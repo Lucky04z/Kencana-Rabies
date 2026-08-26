@@ -454,6 +454,7 @@ Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan pen
     Sistem Informasi Rabies Berbasis Data Epidemiologi
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 fetch('./GHPR.csv')
 .then(response => {
@@ -462,6 +463,7 @@ fetch('./GHPR.csv')
     }
     return response.text();
 })
+
 .then(csv => {
 
     const rows = csv.trim().split(/\r?\n/);
@@ -476,38 +478,39 @@ fetch('./GHPR.csv')
     let jumlahLaki = 0;
     let jumlahPerempuan = 0;
 
-    let wilayahKasus = [];
-    let jenisHewan = {};
+    const wilayahKasus = [];
+    const jenisHewan = {};
 
     dataRows.forEach(row => {
 
-        // GHPR.csv menggunakan koma sebagai pemisah
         const cols = row.split(',');
 
         const desa = (cols[1] || '').trim();
 
-        // JUMLAH L dan JUMLAH P
-        const laki = parseInt(cols[14]) || 0;
-        const perempuan = parseInt(cols[15]) || 0;
-
-        // Jangan menghitung baris JUMLAH sebagai wilayah
+        // Jangan menghitung baris JUMLAH
         if (desa.toUpperCase() === 'JUMLAH') {
             return;
         }
 
-        jumlahLaki += laki;
-        jumlahPerempuan += perempuan;
+        // Kolom jumlah laki-laki
+        const laki = parseInt(cols[14]) || 0;
+
+        // Kolom jumlah perempuan
+        const perempuan = parseInt(cols[15]) || 0;
+
+        // Kolom total kasus
+        const totalDesa = parseInt(cols[16]) || 0;
 
         // Jenis hewan
         const hewan = (cols[17] || '').trim();
+
+        jumlahLaki += laki;
+        jumlahPerempuan += perempuan;
 
         if (hewan) {
             jenisHewan[hewan] =
                 (jenisHewan[hewan] || 0) + laki + perempuan;
         }
-
-        // Total kasus per desa
-        const totalDesa = parseInt(cols[16]) || 0;
 
         if (desa && totalDesa > 0) {
 
@@ -522,13 +525,22 @@ fetch('./GHPR.csv')
         }
     });
 
-    // Urutkan dari kasus terbanyak
+
+    /* =========================
+       URUTKAN WILAYAH
+    ========================= */
+
     wilayahKasus.sort((a, b) => b.kasus - a.kasus);
 
-    // Wilayah prioritas >= 20 kasus
-    const wilayahPrioritas = wilayahKasus.filter(
-        item => item.kasus >= 20
-    );
+
+    /* =========================
+       WILAYAH PRIORITAS
+       ≥ 20 KASUS
+    ========================= */
+
+    const wilayahPrioritas =
+        wilayahKasus.filter(item => item.kasus >= 20);
+
 
     /* =========================
        DASHBOARD
@@ -539,7 +551,8 @@ fetch('./GHPR.csv')
 
     if (cards.length >= 4) {
 
-        cards[0].textContent = totalKasus;
+        cards[0].textContent =
+            totalKasus;
 
         cards[1].textContent =
             wilayahTerdampak;
@@ -552,206 +565,270 @@ fetch('./GHPR.csv')
     }
 
 
-  /* =========================
-   ANALISIS EPIDEMIOLOGI
-========================= */
+    /* =========================
+       GRAFIK DESA
+    ========================= */
 
-/* ANALISIS DESA / KELURAHAN */
-const chartWilayah = document.getElementById('chartWilayah');
+    const chartWilayah =
+        document.getElementById('chartWilayah');
 
-if (chartWilayah) {
+    if (chartWilayah) {
 
-    new Chart(chartWilayah, {
-        type: 'bar',
+        new Chart(chartWilayah, {
 
-        data: {
-            labels: wilayahKasus.map(item => item.desa),
+            type: 'bar',
 
-            datasets: [{
-                label: 'Jumlah Kasus GHPR',
-                data: wilayahKasus.map(item => item.kasus),
-                borderWidth: 1
-            }]
-        },
+            data: {
 
-        options: {
-            indexAxis: 'y',
+                labels:
+                    wilayahKasus.map(item => item.desa),
 
-            responsive: true,
+                datasets: [{
 
-            plugins: {
-                legend: {
-                    display: false
-                },
+                    label: 'Jumlah Kasus GHPR',
 
-                title: {
-                    display: true,
-                    text: 'Distribusi Kasus Berdasarkan Desa/Kelurahan'
-                }
+                    data:
+                        wilayahKasus.map(item => item.kasus),
+
+                    borderWidth: 1,
+
+                    backgroundColor:
+                        '#1d6b63'
+                }]
             },
 
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 5
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: true
+                    }
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            stepSize: 5
+                        },
+
+                        title: {
+                            display: true,
+                            text: 'Jumlah Kasus'
+                        }
+                    },
+
+                    x: {
+
+                        title: {
+                            display: true,
+                            text: 'Desa/Kelurahan'
+                        }
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
 
 
-/* ANALISIS JENIS KELAMIN */
-const chartKelamin = document.getElementById('chartKelamin');
+    /* =========================
+       GRAFIK JENIS KELAMIN
+    ========================= */
 
-if (chartKelamin) {
+    const chartKelamin =
+        document.getElementById('chartKelamin');
 
-    new Chart(chartKelamin, {
+    if (chartKelamin) {
 
-        type: 'doughnut',
+        new Chart(chartKelamin, {
 
-        data: {
-            labels: [
-                'Laki-laki',
-                'Perempuan'
-            ],
+            type: 'doughnut',
 
-            datasets: [{
-                data: [
-                    jumlahLaki,
-                    jumlahPerempuan
+            data: {
+
+                labels: [
+                    'Laki-laki',
+                    'Perempuan'
                 ],
 
-                borderWidth: 1
-            }]
-        },
+                datasets: [{
 
-        options: {
+                    data: [
+                        jumlahLaki,
+                        jumlahPerempuan
+                    ],
 
-            responsive: true,
+                    backgroundColor: [
+                        '#1d6b63',
+                        '#e28b2c'
+                    ],
 
-            plugins: {
-
-                legend: {
-                    position: 'bottom'
-                },
-
-                title: {
-                    display: true,
-                    text: 'Distribusi Kasus Berdasarkan Jenis Kelamin'
-                }
-            }
-        }
-    });
-}
-
-
-/* ANALISIS JENIS HEWAN */
-const chartHewan = document.getElementById('chartHewan');
-
-if (chartHewan) {
-
-    const daftarHewan =
-        Object.entries(jenisHewan)
-        .sort((a, b) => b[1] - a[1]);
-
-    new Chart(chartHewan, {
-
-        type: 'doughnut',
-
-        data: {
-
-            labels: daftarHewan.map(item => item[0]),
-
-            datasets: [{
-
-                data: daftarHewan.map(item => item[1]),
-
-                borderWidth: 1
-            }]
-        },
-
-        options: {
-
-            responsive: true,
-
-            plugins: {
-
-                legend: {
-                    position: 'bottom'
-                },
-
-                title: {
-                    display: true,
-                    text: 'Distribusi Kasus Berdasarkan Jenis Hewan'
-                }
-            }
-        }
-    });
-}
-
-
-/* ANALISIS WILAYAH PRIORITAS */
-const chartPrioritas =
-    document.getElementById('chartPrioritas');
-
-if (chartPrioritas) {
-
-    new Chart(chartPrioritas, {
-
-        type: 'bar',
-
-        data: {
-
-            labels:
-                wilayahPrioritas.map(item => item.desa),
-
-            datasets: [{
-
-                label: 'Jumlah Kasus',
-
-                data:
-                    wilayahPrioritas.map(item => item.kasus),
-
-                borderWidth: 1
-            }]
-        },
-
-        options: {
-
-            responsive: true,
-
-            plugins: {
-
-                legend: {
-                    display: false
-                },
-
-                title: {
-
-                    display: true,
-
-                    text:
-                        'Wilayah Prioritas (≥20 Kasus)'
-                }
+                    borderWidth: 1
+                }]
             },
 
-            scales: {
+            options: {
 
-                y: {
+                responsive: true,
 
-                    beginAtZero: true,
+                maintainAspectRatio: false,
 
-                    ticks: {
-                        stepSize: 5
+                plugins: {
+
+                    legend: {
+                        position: 'bottom'
                     }
                 }
             }
-        }
-    });
-}
+        });
+    }
+
+
+    /* =========================
+       GRAFIK JENIS HEWAN
+    ========================= */
+
+    const chartHewan =
+        document.getElementById('chartHewan');
+
+    if (chartHewan) {
+
+        const hewanLabels =
+            Object.keys(jenisHewan);
+
+        const hewanData =
+            Object.values(jenisHewan);
+
+        new Chart(chartHewan, {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: hewanLabels,
+
+                datasets: [{
+
+                    label: 'Kasus berdasarkan hewan',
+
+                    data: hewanData,
+
+                    backgroundColor: [
+                        '#1d6b63',
+                        '#e28b2c',
+                        '#c94c4c',
+                        '#4d7ea8'
+                    ],
+
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+
+
+    /* =========================
+       GRAFIK WILAYAH PRIORITAS
+    ========================= */
+
+    const chartPrioritas =
+        document.getElementById('chartPrioritas');
+
+    if (chartPrioritas) {
+
+        new Chart(chartPrioritas, {
+
+            type: 'bar',
+
+            data: {
+
+                labels:
+                    wilayahPrioritas.map(
+                        item => item.desa
+                    ),
+
+                datasets: [{
+
+                    label:
+                        'Kasus Wilayah Prioritas',
+
+                    data:
+                        wilayahPrioritas.map(
+                            item => item.kasus
+                        ),
+
+                    backgroundColor:
+                        '#c94c4c',
+
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: true
+                    }
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            stepSize: 5
+                        },
+
+                        title: {
+                            display: true,
+                            text: 'Jumlah Kasus'
+                        }
+                    },
+
+                    x: {
+
+                        title: {
+                            display: true,
+                            text: 'Wilayah Prioritas'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+})
+
 .catch(error => {
 
     console.error(
@@ -759,16 +836,10 @@ if (chartPrioritas) {
         error
     );
 
-    document
-        .querySelectorAll(
-            '#analisisWilayah, #analisisKelamin, #analisisHewan, #analisisPrioritas'
-        )
+    document.querySelectorAll('.card .value')
         .forEach(el => {
-
-            el.innerHTML =
-                '<p style="color:red;">' +
-                'Data GHPR gagal dimuat. Pastikan GHPR.csv berada di folder utama repository.' +
-                '</p>';
+            el.textContent = '—';
         });
+
 });
 </script>
