@@ -85,8 +85,9 @@ background-attachment: fixed;
 /* ALUR */
 .flow {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 30px;
 }
 
 .flow-box {
@@ -106,6 +107,7 @@ background-attachment: fixed;
 .map-box {
     background: white;
     border-radius: 15px;
+    margin-top: 30px;
     padding: 20px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.08);
 }
