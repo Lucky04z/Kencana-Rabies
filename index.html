@@ -6,14 +6,320 @@
 
     <title>SI-RABIES MAP</title>
 
-    <meta http-equiv="refresh" content="0; url=si-rabies-map.html">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    <script>
-        window.location.href = "si-rabies-map.html";
-    </script>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image:
+                linear-gradient(
+                    rgba(0, 34, 75, 0.42),
+                    rgba(0, 34, 75, 0.58)
+                ),
+                url("assets/background-rabies-map.jpeg");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+        }
+
+        .overlay {
+            width: 100%;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px 20px;
+        }
+
+        .welcome-card {
+            width: 100%;
+            max-width: 850px;
+
+            text-align: center;
+
+            padding: 45px 35px 40px;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            border: 1px solid rgba(255, 255, 255, 0.30);
+
+            border-radius: 28px;
+
+            backdrop-filter: blur(5px);
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.30);
+        }
+
+        /* LOGO */
+
+        .logo {
+            width: 170px;
+            height: 170px;
+
+            object-fit: contain;
+
+            margin-bottom: 18px;
+
+            filter: drop-shadow(
+                0 5px 10px rgba(0,0,0,0.35)
+            );
+        }
+
+        /* JUDUL */
+
+        h1 {
+            margin: 0;
+
+            font-size: 52px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            text-shadow:
+                0 3px 8px rgba(0,0,0,0.35);
+        }
+
+        .subtitle {
+            margin-top: 8px;
+
+            font-size: 21px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.5px;
+
+            text-shadow:
+                0 2px 5px rgba(0,0,0,0.35);
+        }
+
+        /* TAGLINE */
+
+        .tagline {
+            display: inline-block;
+
+            margin-top: 22px;
+
+            padding: 12px 28px;
+
+            border-radius: 30px;
+
+            background: rgba(0, 78, 150, 0.90);
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.25);
+        }
+
+        /* DESKRIPSI */
+
+        .description {
+            max-width: 650px;
+
+            margin: 24px auto 0;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            text-shadow:
+                0 2px 5px rgba(0,0,0,0.40);
+        }
+
+        /* TOMBOL */
+
+        .start-button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 14px;
+
+            margin-top: 32px;
+
+            min-width: 220px;
+
+            padding: 15px 32px;
+
+            border-radius: 35px;
+
+            background: #0755a0;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 7px 18px rgba(0,0,0,0.30);
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+
+            background: #0867bd;
+
+            box-shadow:
+                0 10px 22px rgba(0,0,0,0.35);
+        }
+
+        .arrow {
+            font-size: 25px;
+            line-height: 1;
+        }
+
+        /* IDENTITAS */
+
+        .footer {
+            margin-top: 35px;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            opacity: 0.95;
+
+            text-shadow:
+                0 2px 4px rgba(0,0,0,0.40);
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .overlay {
+                padding: 20px 14px;
+            }
+
+            .welcome-card {
+                padding: 35px 20px 30px;
+
+                border-radius: 22px;
+            }
+
+            .logo {
+                width: 125px;
+                height: 125px;
+            }
+
+            h1 {
+                font-size: 34px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+
+            .tagline {
+                font-size: 15px;
+
+                padding: 10px 20px;
+            }
+
+            .description {
+                font-size: 14px;
+
+                line-height: 1.6;
+            }
+
+            .start-button {
+                min-width: 190px;
+
+                padding: 13px 25px;
+
+                font-size: 18px;
+            }
+
+            .footer {
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <p>Membuka SI-RABIES MAP...</p>
+
+    <div class="overlay">
+
+        <div class="welcome-card">
+
+            <!-- LOGO SI-RABIES MAP -->
+            <img
+                src="assets/logo-SI%20rabies%20map.jpeg"
+                alt="Logo SI-RABIES MAP"
+                class="logo"
+            >
+
+            <!-- JUDUL -->
+            <h1>SI-RABIES MAP</h1>
+
+            <div class="subtitle">
+                SISTEM INFORMASI PETA SEBARAN GHPR
+            </div>
+
+            <!-- TAGLINE -->
+            <div class="tagline">
+                Kenali • Cegah • Waspada Rabies
+            </div>
+
+            <!-- DESKRIPSI -->
+            <div class="description">
+                Media informasi dan edukasi berbasis pemetaan spasial
+                untuk meningkatkan kewaspadaan serta pencegahan rabies
+                di wilayah kerja Puskesmas Labuan Bajo.
+            </div>
+
+            <!-- TOMBOL MULAI -->
+            <a
+                href="si-rabies-map.html"
+                class="start-button"
+            >
+                MULAI
+                <span class="arrow">→</span>
+            </a>
+
+            <!-- FOOTER -->
+            <div class="footer">
+                Puskesmas Labuan Bajo<br>
+                Kabupaten Manggarai Barat
+            </div>
+
+        </div>
+
+    </div>
+
 </body>
 </html>
