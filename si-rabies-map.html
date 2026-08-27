@@ -4,565 +4,889 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SI-Rabies Map</title>
+<title>SI-Rabies Map | Puskesmas Labuan Bajo</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f5;
-background-image: url("assets/background-rabies-map.jpeg");
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-background-attachment: fixed;
-    color: #17324d;
+html{
+    scroll-behavior:smooth;
 }
 
-.header {
-    background: linear-gradient(135deg, #123b5d, #1d6b63);
-    color: white;
-    padding: 28px 20px;
-    text-align: center;
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#17324d;
+    background:#eef5f4;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 30px;
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    background:linear-gradient(135deg,#0b3d5c,#126b64);
+    color:white;
+    padding:32px 20px;
+    text-align:center;
 }
 
-.header p {
-    margin: 8px 0 0;
-    font-size: 15px;
+.header h1{
+    margin:0;
+    font-size:32px;
+    letter-spacing:.3px;
 }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
+.header p{
+    margin:8px 0 0;
+    font-size:15px;
 }
 
-.section-title {
-    margin-top: 30px;
-    margin-bottom: 15px;
-    font-size: 22px;
+.header .subtitle{
+    display:inline-block;
+    margin-top:12px;
+    padding:8px 18px;
+    border-radius:20px;
+    background:rgba(255,255,255,.15);
+    font-weight:bold;
 }
 
-/* KARTU INDIKATOR */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    width:min(1180px,94%);
+    margin:auto;
+    padding:25px 0 40px;
 }
 
-.card {
-    background: rgba(255, 255, 255, 0.88);
-    border-radius: 14px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+.section-title{
+    margin:28px 0 8px;
+    font-size:23px;
+    color:#123b5d;
 }
 
-.card .icon {
-    font-size: 28px;
+.section-description{
+    margin:0 0 18px;
+    color:#526875;
+    line-height:1.6;
 }
 
-.card h3 {
-    margin: 8px 0 5px;
-    font-size: 15px;
+/* =========================
+   DASHBOARD
+========================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
 }
 
-.card .value {
-    font-size: 25px;
-    font-weight: bold;
-    color: #1d6b63;
+.card{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    border:1px solid #e0ebea;
 }
 
-/* ALUR */
-.flow {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 30px;
+.card .icon{
+    font-size:30px;
 }
 
-.flow-box {
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
-    text-align: center;
-    border-top: 5px solid #1d6b63;
+.card h3{
+    margin:8px 0 6px;
+    font-size:15px;
+    color:#526875;
 }
 
-.flow-box strong {
-    display: block;
-    margin-bottom: 7px;
+.card .value{
+    font-size:28px;
+    font-weight:bold;
+    color:#126b64;
 }
 
-/* PETA */
-.map-box {
-    background: white;
-    border-radius: 15px;
-    margin-top: 30px;
-    padding: 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+.card small{
+    color:#71818a;
 }
 
-.map-placeholder {
-    min-height: 380px;
-    height: auto;
-    border-radius: 12px;
-    background: #e7eeee;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+/* =========================
+   ALUR
+========================= */
+
+.flow{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
 }
 
-.map-placeholder .map-icon {
-    font-size: 55px;
+.flow-box{
+    background:white;
+    border-radius:14px;
+    padding:18px 12px;
+    text-align:center;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+    border-top:5px solid #126b64;
 }
 
-.button {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    background: #1d6b63;
-    color: white;
-    text-decoration: none;
+.flow-box strong{
+    display:block;
+    margin-bottom:8px;
+    color:#123b5d;
 }
 
-/* ANALISIS */
-.analysis {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-.chart-container {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    margin-top: 15px;
-}
-.panel {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+/* =========================
+   MAP
+========================= */
+
+.map-box{
+    background:white;
+    border-radius:18px;
+    padding:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.10);
+    border:1px solid #dce8e7;
 }
 
-.panel ul {
-    line-height: 1.8;
+.map-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:8px 10px 14px;
 }
 
-/* REKOMENDASI */
-.recommendation {
-    background: white;
-    border-left: 6px solid #e28b2c;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+.map-header h3{
+    margin:0;
+    color:#123b5d;
 }
 
-.recommendation h3 {
-    margin-top: 0;
+.map-header span{
+    font-size:13px;
+    color:#60747e;
 }
 
-/* MEDIA */
-.media {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+.map-image-wrapper{
+    width:100%;
+    overflow:hidden;
+    border-radius:14px;
+    background:#dfeceb;
 }
 
-.media-card {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    text-align: center;
+.map-image-wrapper img{
+    display:block;
+    width:100%;
+    height:auto;
 }
 
-/* FOOTER */
-footer {
-    margin-top: 40px;
-    padding: 25px;
-    background: #123b5d;
-    color: white;
-    text-align: center;
-    font-size: 13px;
+/* tombol buka peta */
+
+.map-button{
+    display:inline-block;
+    margin:14px 5px 3px 0;
+    padding:11px 18px;
+    border-radius:9px;
+    background:#126b64;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
 }
 
-/* MOBILE */
-@media (max-width: 800px) {
+.map-button:hover{
+    background:#0d544f;
+}
 
-    .cards,
-    .flow,
-    .media {
-        grid-template-columns: 1fr 1fr;
+/* =========================
+   ANALISIS
+========================= */
+
+.analysis{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.panel{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 5px 18px rgba(0,0,0,.07);
+    border:1px solid #e0ebea;
+}
+
+.panel h3{
+    margin-top:0;
+    color:#123b5d;
+}
+
+.chart-container{
+    position:relative;
+    width:100%;
+    height:300px;
+}
+
+/* =========================
+   REKOMENDASI
+========================= */
+
+.recommendation{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-top:15px;
+    box-shadow:0 5px 16px rgba(0,0,0,.07);
+    border-left:6px solid #e28b2c;
+}
+
+.recommendation h3{
+    margin-top:0;
+    color:#123b5d;
+}
+
+.recommendation p{
+    line-height:1.7;
+    color:#405661;
+}
+
+/* =========================
+   MEDIA
+========================= */
+
+.media{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.media-card{
+    display:block;
+    background:white;
+    padding:22px;
+    border-radius:15px;
+    text-align:center;
+    text-decoration:none;
+    color:#17324d;
+    box-shadow:0 5px 16px rgba(0,0,0,.07);
+    border:1px solid #e0ebea;
+    transition:.2s;
+}
+
+.media-card:hover{
+    transform:translateY(-3px);
+}
+
+.media-card h3{
+    color:#126b64;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:30px;
+    padding:28px 20px;
+    background:#0b3d5c;
+    color:white;
+    text-align:center;
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .analysis {
-        grid-template-columns: 1fr;
+    .flow{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .analysis{
+        grid-template-columns:1fr;
+    }
+
+    .media{
+        grid-template-columns:1fr;
     }
 }
 
-@media (max-width: 500px) {
+@media(max-width:550px){
 
-    .cards,
-    .flow,
-    .media {
-        grid-template-columns: 1fr;
+    .header{
+        padding:25px 15px;
     }
 
-    .header h1 {
-        font-size: 24px;
+    .header h1{
+        font-size:25px;
+    }
+
+    .container{
+        width:94%;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .flow{
+        grid-template-columns:1fr;
+    }
+
+    .section-title{
+        font-size:20px;
+    }
+
+    .map-header{
+        display:block;
+    }
+
+    .map-header span{
+        display:block;
+        margin-top:5px;
     }
 }
 </style>
 </head>
 
+
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header class="header">
+
     <h1>🗺️ SI-Rabies Map</h1>
-    <p>Sistem Informasi Rabies Berbasis Data Epidemiologi</p>
-    <p><strong>Optimalisasi Penyusunan Rekomendasi Pencegahan GHPR</strong></p>
+
+    <p>
+        Sistem Informasi Rabies Berbasis Data Epidemiologi
+    </p>
+
+    <div class="subtitle">
+        Optimalisasi Rekomendasi Pencegahan GHPR
+    </div>
+
 </header>
+
 
 <main class="container">
 
-   <!-- GAMBARAN DATA -->
 
-<h2 class="section-title">📊 Dashboard Situasi GHPR</h2>
+<!-- =========================
+     DASHBOARD
+========================= -->
 
-<p class="dashboard-description">
-Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah prioritas dan penyusunan rekomendasi pencegahan.
+<h2 class="section-title">
+    📊 Dashboard Situasi GHPR
+</h2>
+
+<p class="section-description">
+    Informasi epidemiologi GHPR sebagai dasar identifikasi wilayah
+    terdampak, analisis situasi, dan penyusunan rekomendasi pencegahan.
 </p>
+
 
 <div class="cards">
 
-        <div class="card">
-            <div class="icon">🩸</div>
-            <h3>Total Kasus GHPR</h3>
-            <div class="value">—</div>
-            <small>Data akan diisi</small>
-        </div>
+    <div class="card">
+        <div class="icon">🩸</div>
+        <h3>Total Kasus GHPR</h3>
+        <div class="value">—</div>
+        <small>Kasus tercatat</small>
+    </div>
 
-        <div class="card">
-            <div class="icon">📍</div>
-            <h3>Wilayah Terdampak</h3>
-            <div class="value">—</div>
-            <small>Desa/Kelurahan terdampak</small>
-        </div>
+    <div class="card">
+        <div class="icon">📍</div>
+        <h3>Wilayah Terdampak</h3>
+        <div class="value">—</div>
+        <small>Desa/Kelurahan</small>
+    </div>
 
-        <div class="card">
-            <div class="icon">⚠️</div>
-            <h3>Wilayah Prioritas</h3>
-            <div class="value">—</div>
-            <small>Hasil analisis epidemiologi</small>
-        </div>
+    <div class="card">
+        <div class="icon">⚠️</div>
+        <h3>Wilayah Prioritas</h3>
+        <div class="value">—</div>
+        <small>≥ 20 kasus</small>
+    </div>
 
-        <div class="card">
-            <div class="icon">📅</div>
-            <h3>Periode Data</h3>
-            <div class="value">—</div>
-           <small>Periode data GHPR</small>
-        </div>
+    <div class="card">
+        <div class="icon">📅</div>
+        <h3>Periode Data</h3>
+        <div class="value">—</div>
+        <small>Periode pengamatan</small>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ALUR
+========================= -->
+
+<h2 class="section-title">
+    🔎 Alur Informasi Epidemiologi
+</h2>
+
+<p class="section-description">
+    Data GHPR diolah menjadi informasi spasial yang dapat digunakan
+    sebagai dasar penentuan prioritas pencegahan.
+</p>
+
+
+<div class="flow">
+
+    <div class="flow-box">
+        <strong>1. Data GHPR</strong>
+        Pengumpulan data kasus
+    </div>
+
+    <div class="flow-box">
+        <strong>2. Pengolahan</strong>
+        Validasi dan pengolahan data
+    </div>
+
+    <div class="flow-box">
+        <strong>3. Analisis</strong>
+        Analisis pola kejadian
+    </div>
+
+    <div class="flow-box">
+        <strong>4. Pemetaan</strong>
+        Visualisasi distribusi spasial
+    </div>
+
+    <div class="flow-box">
+        <strong>5. Rekomendasi</strong>
+        Pencegahan berdasarkan prioritas
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PETA
+========================= -->
+
+<h2 class="section-title">
+    🗺️ Peta Sebaran GHPR
+</h2>
+
+<p class="section-description">
+    Peta distribusi spasial kasus Gigitan Hewan Penular Rabies (GHPR)
+    di wilayah kerja UPTD Puskesmas Labuan Bajo.
+</p>
+
+
+<div class="map-box">
+
+    <div class="map-header">
+
+        <h3>
+            Peta Distribusi Spasial GHPR
+        </h3>
+
+        <span>
+            Periode Januari–Juni 2026
+        </span>
 
     </div>
 
 
-    <!-- KONSEP -->
-    <h2 class="section-title">🔎 Alur Informasi Epidemiologi</h2>
+    <div class="map-image-wrapper">
 
-    <div class="flow">
+        <a href="./assets/peta-ghpr.jpeg" target="_blank">
 
-        <div class="flow-box">
-            <strong>1. Data GHPR</strong>
-            Pengumpulan data kasus
-        </div>
+            <img
+                src="./assets/peta-ghpr.jpeg"
+                alt="Peta Sebaran Kasus GHPR Wilayah Kerja UPTD Puskesmas Labuan Bajo"
+            >
 
-        <div class="flow-box">
-            <strong>2. Pengolahan</strong>
-            Pembersihan dan validasi data
-        </div>
-
-        <div class="flow-box">
-            <strong>3. Analisis</strong>
-            Melihat pola dan distribusi
-        </div>
-
-        <div class="flow-box">
-            <strong>4. Pemetaan</strong>
-            Visualisasi wilayah kasus
-        </div>
-
-        <div class="flow-box">
-            <strong>5. Rekomendasi</strong>
-            Menentukan pencegahan prioritas
-        </div>
+        </a>
 
     </div>
 
 
-    <!-- PETA -->
-    <h2 class="section-title">🗺️ Peta Sebaran GHPR</h2>
+    <a
+        href="./assets/peta-ghpr.jpeg"
+        target="_blank"
+        class="map-button"
+    >
+        🔍 Lihat Peta Lebih Besar
+    </a>
 
-    <div class="map-box">
-
-        <div class="map-placeholder">
-
-            <div class="map-icon">📍</div>
-
-            <h3>Peta Distribusi Spasial GHPR</h3>
-
-            <p>
-                Peta akan menampilkan persebaran kasus GHPR
-                berdasarkan wilayah kerja Puskesmas.
-            </p>
-
-          <a href="./assets/peta-ghpr.jpeg" target="_blank">
-  <img src="./assets/peta-ghpr.jpeg"
-     alt="Peta Sebaran GHPR"
-     style="width:100%; height:auto; display:block;">
-</a>
-
-        </div>
-
-    </div>
+</div>
 
 
- <!-- ANALISIS -->
-<h2 class="section-title">📊 Analisis Epidemiologi</h2>
+<!-- =========================
+     ANALISIS
+========================= -->
+
+<h2 class="section-title">
+    📊 Analisis Epidemiologi
+</h2>
+
+<p class="section-description">
+    Analisis disajikan berdasarkan data GHPR yang terdapat pada
+    GHPR.csv.
+</p>
+
 
 <div class="analysis">
 
- <!-- DESA / KELURAHAN -->
-<div class="panel">
-    <h3>📍 Berdasarkan Desa/Kelurahan</h3>
+
+    <div class="panel">
+
+        <h3>📍 Berdasarkan Desa/Kelurahan</h3>
+
+        <div class="chart-container">
+
+            <canvas id="chartWilayah"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h3>👥 Berdasarkan Jenis Kelamin</h3>
+
+        <div class="chart-container">
+
+            <canvas id="chartKelamin"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h3>🐕 Berdasarkan Jenis Hewan</h3>
+
+        <div class="chart-container">
+
+            <canvas id="chartHewan"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h3>⚠️ Wilayah Prioritas</h3>
+
+        <div class="chart-container">
+
+            <canvas id="chartPrioritas"></canvas>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     REKOMENDASI
+========================= -->
+
+<h2 class="section-title">
+    📢 Rekomendasi Pencegahan
+</h2>
+
+
+<div class="recommendation">
+
+    <h3>
+        🛡️ Pencegahan GHPR Berbasis Wilayah
+    </h3>
+
     <p>
-        Distribusi kasus GHPR berdasarkan desa/kelurahan
-        di wilayah kerja Puskesmas Labuan Bajo.
+        Informasi spasial SI-Rabies Map dapat digunakan untuk
+        meningkatkan kewaspadaan terhadap wilayah dengan kejadian
+        GHPR yang lebih tinggi.
     </p>
 
-    <div class="chart-container">
-        <canvas id="chartWilayah"></canvas>
+    <p>
+        Masyarakat diimbau menghindari kontak berisiko dengan hewan,
+        tidak melakukan tindakan yang dapat memicu gigitan atau
+        cakaran, serta meningkatkan kewaspadaan terhadap perilaku
+        hewan di lingkungan sekitar.
+    </p>
+
+    <p>
+        Apabila terjadi gigitan atau cakaran, segera lakukan
+        pertolongan pertama dengan mencuci luka menggunakan sabun
+        dan air mengalir, kemudian segera mendapatkan pelayanan
+        kesehatan.
+    </p>
+
+</div>
+
+
+<div class="recommendation">
+
+    <h3>
+        🤝 Rekomendasi untuk Pemangku Kepentingan
+    </h3>
+
+    <p>
+        Informasi wilayah prioritas dapat digunakan sebagai bahan
+        koordinasi lintas program dan lintas sektor dalam penguatan
+        edukasi masyarakat, kewaspadaan terhadap GHPR, serta
+        perencanaan kegiatan pencegahan rabies.
+    </p>
+
+</div>
+
+
+<div class="recommendation">
+
+    <h3>
+        🐕 Pencegahan Berdasarkan Jenis Hewan
+    </h3>
+
+    <p>
+        Informasi mengenai jenis hewan yang terlibat dalam kejadian
+        GHPR digunakan untuk meningkatkan kewaspadaan masyarakat
+        terhadap hewan yang berpotensi menularkan rabies dan
+        mendukung upaya pencegahan di lingkungan sekitar.
+    </p>
+
+</div>
+
+
+<!-- =========================
+     MEDIA
+========================= -->
+
+<h2 class="section-title">
+    📚 Media Edukasi
+</h2>
+
+
+<p class="section-description">
+    Materi edukasi dapat digunakan oleh masyarakat maupun petugas
+    sebagai informasi tambahan mengenai pencegahan GHPR.
+</p>
+
+
+<div class="media">
+
+
+    <a
+        href="edukasi-indonesia.html"
+        target="_blank"
+        class="media-card"
+    >
+
+        <h3>📄 Edukasi GHPR</h3>
+
+        <p>
+            Informasi pencegahan dan pertolongan pertama GHPR.
+        </p>
+
+    </a>
+
+
+    <a
+        href="video-edukasi.html"
+        target="_blank"
+        class="media-card"
+    >
+
+        <h3>🎥 Video Edukasi</h3>
+
+        <p>
+            Video edukasi mengenai rabies dan GHPR.
+        </p>
+
+    </a>
+
+
+    <div class="media-card">
+
+        <h3>🗺️ Data Spasial</h3>
+
+        <p>
+            Informasi persebaran kasus GHPR berdasarkan wilayah.
+        </p>
+
     </div>
-</div>
 
-  <!-- JENIS KELAMIN -->
-  <div class="panel">
-    <h3>👥 Berdasarkan Jenis Kelamin</h3>
-
-    <div class="chart-container">
-    <canvas id="chartKelamin"></canvas>
-</div>
-  </div>
-
-  <!-- JENIS HEWAN -->
-  <div class="panel">
-    <h3>🐕 Berdasarkan Jenis Hewan</h3>
-
-    <div class="chart-container">
-    <canvas id="chartHewan"></canvas>
-</div>
-  </div>
-
-  <!-- WILAYAH PRIORITAS -->
-  <div class="panel">
-    <h3>📍 Wilayah Prioritas</h3>
-
-   <div class="chart-container">
-    <canvas id="chartPrioritas"></canvas>
-</div>
-  </div>
 
 </div>
 
-<!-- REKOMENDASI -->
-<div class="recommendation">
-
-<h3>📢 Edukasi Pencegahan GHPR</h3>
-
-<p>
-SI-Rabies Map membantu masyarakat mengenali sebaran kasus Gigitan Hewan Penular Rabies (GHPR)
-di wilayah kerja Puskesmas Labuan Bajo. Informasi spasial ini digunakan untuk meningkatkan
-kewaspadaan terhadap risiko rabies dan membantu mengenali wilayah dengan kasus tinggi sebagai
-wilayah yang perlu mendapat perhatian lebih dalam upaya pencegahan.
-<br><br>
-Masyarakat di wilayah dengan kasus tinggi diharapkan meningkatkan kewaspadaan saat berinteraksi
-dengan hewan, menghindari kontak yang berisiko, serta memperhatikan kondisi dan perilaku hewan
-di lingkungan sekitar.
-<br><br>
-Apabila terjadi gigitan atau cakaran, segera laporkan kepada petugas kesehatan untuk mendapatkan
-pertolongan dan penanganan yang tepat. Informasi mengenai pencegahan, pertolongan pertama,
-dan penanganan GHPR dapat dipelajari lebih lanjut melalui media edukasi dan leaflet yang tersedia
-pada SI-Rabies Map.
-<br><br>
-<b>Kenali wilayah berisiko, tingkatkan kewaspadaan, dan bersama-sama cegah rabies.</b>
-</p>
-    
-</div>
-
-<div class="recommendation">
-
- <h3>🤝 Koordinasi Lintas Sektor</h3>
-
-<p>
-Penguatan koordinasi lintas sektor dilakukan berdasarkan hasil analisis epidemiologi dan
-identifikasi wilayah prioritas. Informasi dari SI-Rabies Map dapat menjadi bahan komunikasi
-dan pertimbangan bersama dalam meningkatkan kewaspadaan, memperkuat upaya pencegahan,
-serta mendukung respons terhadap kejadian GHPR di wilayah kerja Puskesmas Labuan Bajo.
-</p>
-</div>
-
-<div class="recommendation">
-
-  <h3>🐕 Pencegahan Berdasarkan Jenis Hewan</h3>
-
-<p>
-Jenis hewan yang terlibat dalam kejadian GHPR menjadi salah satu informasi penting dalam
-memahami pola kejadian di wilayah kerja Puskesmas Labuan Bajo. Informasi ini dapat digunakan
-untuk meningkatkan kewaspadaan masyarakat terhadap hewan yang berpotensi menularkan rabies
-serta mendukung upaya pencegahan di lingkungan sekitar.
-<br><br>
-Pemahaman terhadap pola kejadian berdasarkan jenis hewan juga membantu masyarakat lebih
-bijak dalam berinteraksi dengan hewan dan menjaga keselamatan diri, keluarga, serta lingkungan.
-</p>
-
-</div>
-    <!-- MEDIA -->
-    <h2 class="section-title">📚 Media Pendukung</h2>
-
-    <div class="media">
-
-      <a href="edukasi-indonesi.html" class="media-card" target="_blank">
-    <h3>📄 Leaflet</h3>
-    <p>Media edukasi pencegahan GHPR.</p>
-</a>
-       <a href="video-edukasi.html" class="media-card" target="_blank">
-    <h3>🎥 Video</h3>
-    <p>Video edukasi rabies dan GHPR.</p>
-</a>
-
-     <div class="media-card">
-    <h3>🗺️ Peta Sebaran Tahun Sebelumnya</h3>
-    <p>Melihat sebaran kasus GHPR pada periode sebelumnya sebagai bahan perbandingan pola kejadian.</p>
-</div>
-    </div>
 
 </main>
 
 
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
-    SI-Rabies Map | Puskesmas Labuan Bajo
+
+    <strong>
+        SI-Rabies Map | UPTD Puskesmas Labuan Bajo
+    </strong>
+
     <br>
+
     Sistem Informasi Rabies Berbasis Data Epidemiologi
+
+    <br><br>
+
+    Informasi disajikan untuk mendukung edukasi masyarakat,
+    analisis epidemiologi, dan perencanaan upaya pencegahan GHPR.
+
 </footer>
+
+
+<!-- =========================
+     CHART.JS
+========================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+
 fetch('./GHPR.csv')
+
 .then(response => {
-    if (!response.ok) {
+
+    if(!response.ok){
+
         throw new Error('GHPR.csv tidak ditemukan');
+
     }
+
     return response.text();
+
 })
+
 
 .then(csv => {
 
     const rows = csv.trim().split(/\r?\n/);
 
-    // Baris 0 = judul
-    // Baris 1 = header
-    // Baris 2 dst = data
     const dataRows = rows.slice(2);
 
+
     let totalKasus = 0;
+
     let wilayahTerdampak = 0;
+
     let jumlahLaki = 0;
+
     let jumlahPerempuan = 0;
 
+
     const wilayahKasus = [];
+
     const jenisHewan = {};
+
 
     dataRows.forEach(row => {
 
         const cols = row.split(',');
 
-        const desa = (cols[1] || '').trim();
 
-        // Jangan menghitung baris JUMLAH
-        if (desa.toUpperCase() === 'JUMLAH') {
+        const desa =
+            (cols[1] || '').trim();
+
+
+        if(desa.toUpperCase() === 'JUMLAH'){
+
             return;
+
         }
 
-        // Kolom jumlah laki-laki
-        const laki = parseInt(cols[14]) || 0;
 
-        // Kolom jumlah perempuan
-        const perempuan = parseInt(cols[15]) || 0;
+        const laki =
+            parseInt(cols[14]) || 0;
 
-        // Kolom total kasus
-        const totalDesa = parseInt(cols[16]) || 0;
 
-        // Jenis hewan
-        const hewan = (cols[17] || '').trim();
+        const perempuan =
+            parseInt(cols[15]) || 0;
+
+
+        const totalDesa =
+            parseInt(cols[16]) || 0;
+
+
+        const hewan =
+            (cols[17] || '').trim();
+
 
         jumlahLaki += laki;
+
         jumlahPerempuan += perempuan;
 
-        if (hewan) {
+
+        if(hewan){
+
             jenisHewan[hewan] =
-                (jenisHewan[hewan] || 0) + laki + perempuan;
+                (jenisHewan[hewan] || 0)
+                + laki
+                + perempuan;
+
         }
 
-        if (desa && totalDesa > 0) {
+
+        if(desa && totalDesa > 0){
 
             wilayahTerdampak++;
 
             totalKasus += totalDesa;
 
+
             wilayahKasus.push({
-                desa: desa,
-                kasus: totalDesa
+
+                desa:desa,
+
+                kasus:totalDesa
+
             });
+
         }
+
     });
 
 
-    /* =========================
-       URUTKAN WILAYAH
-    ========================= */
+    wilayahKasus.sort(
+        (a,b) => b.kasus - a.kasus
+    );
 
-    wilayahKasus.sort((a, b) => b.kasus - a.kasus);
-
-
-    /* =========================
-       WILAYAH PRIORITAS
-       ≥ 20 KASUS
-    ========================= */
 
     const wilayahPrioritas =
-        wilayahKasus.filter(item => item.kasus >= 20);
+        wilayahKasus.filter(
+            item => item.kasus >= 20
+        );
 
 
-    /* =========================
-       DASHBOARD
-    ========================= */
+    /* DASHBOARD */
 
     const cards =
-        document.querySelectorAll('.card .value');
+        document.querySelectorAll(
+            '.card .value'
+        );
 
-    if (cards.length >= 4) {
+
+    if(cards.length >= 4){
 
         cards[0].textContent =
             totalKasus;
@@ -575,214 +899,228 @@ fetch('./GHPR.csv')
 
         cards[3].textContent =
             'Jan–Jun 2026';
+
     }
 
 
     /* =========================
-       GRAFIK DESA
+       GRAFIK WILAYAH
     ========================= */
 
-    const chartWilayah =
-        document.getElementById('chartWilayah');
+    new Chart(
+        document.getElementById(
+            'chartWilayah'
+        ),
+        {
 
-    if (chartWilayah) {
+            type:'bar',
 
-        new Chart(chartWilayah, {
-
-            type: 'bar',
-
-            data: {
+            data:{
 
                 labels:
-                    wilayahKasus.map(item => item.desa),
+                    wilayahKasus.map(
+                        item => item.desa
+                    ),
 
-                datasets: [{
+                datasets:[{
 
-                    label: 'Jumlah Kasus GHPR',
+                    label:
+                        'Jumlah Kasus GHPR',
 
                     data:
-                        wilayahKasus.map(item => item.kasus),
-
-                    borderWidth: 1,
+                        wilayahKasus.map(
+                            item => item.kasus
+                        ),
 
                     backgroundColor:
-                        '#1d6b63'
+                        '#126b64',
+
+                    borderWidth:1
+
                 }]
+
             },
 
-            options: {
+            options:{
 
-                responsive: true,
+                responsive:true,
 
-                maintainAspectRatio: false,
+                maintainAspectRatio:false,
 
-                plugins: {
+                plugins:{
 
-                    legend: {
-                        display: true
+                    legend:{
+                        display:false
                     }
+
                 },
 
-                scales: {
+                scales:{
 
-                    y: {
+                    y:{
 
-                        beginAtZero: true,
+                        beginAtZero:true,
 
-                        ticks: {
-                            stepSize: 5
-                        },
+                        title:{
 
-                        title: {
-                            display: true,
-                            text: 'Jumlah Kasus'
+                            display:true,
+
+                            text:
+                                'Jumlah Kasus'
+
                         }
-                    },
 
-                    x: {
-
-                        title: {
-                            display: true,
-                            text: 'Desa/Kelurahan'
-                        }
                     }
+
                 }
+
             }
-        });
-    }
+
+        }
+    );
 
 
     /* =========================
-       GRAFIK JENIS KELAMIN
+       JENIS KELAMIN
     ========================= */
 
-    const chartKelamin =
-        document.getElementById('chartKelamin');
+    new Chart(
 
-    if (chartKelamin) {
+        document.getElementById(
+            'chartKelamin'
+        ),
 
-        new Chart(chartKelamin, {
+        {
 
-            type: 'doughnut',
+            type:'doughnut',
 
-            data: {
+            data:{
 
-                labels: [
+                labels:[
                     'Laki-laki',
                     'Perempuan'
                 ],
 
-                datasets: [{
+                datasets:[{
 
-                    data: [
+                    data:[
                         jumlahLaki,
                         jumlahPerempuan
                     ],
 
-                    backgroundColor: [
-                        '#1d6b63',
+                    backgroundColor:[
+                        '#126b64',
                         '#e28b2c'
-                    ],
+                    ]
 
-                    borderWidth: 1
                 }]
+
             },
 
-            options: {
+            options:{
 
-                responsive: true,
+                responsive:true,
 
-                maintainAspectRatio: false,
+                maintainAspectRatio:false,
 
-                plugins: {
+                plugins:{
 
-                    legend: {
-                        position: 'bottom'
+                    legend:{
+                        position:'bottom'
                     }
+
                 }
+
             }
-        });
-    }
+
+        }
+
+    );
 
 
     /* =========================
-       GRAFIK JENIS HEWAN
+       JENIS HEWAN
     ========================= */
 
-    const chartHewan =
-        document.getElementById('chartHewan');
+    new Chart(
 
-    if (chartHewan) {
+        document.getElementById(
+            'chartHewan'
+        ),
 
-        const hewanLabels =
-            Object.keys(jenisHewan);
+        {
 
-        const hewanData =
-            Object.values(jenisHewan);
+            type:'doughnut',
 
-        new Chart(chartHewan, {
+            data:{
 
-            type: 'doughnut',
+                labels:
+                    Object.keys(
+                        jenisHewan
+                    ),
 
-            data: {
+                datasets:[{
 
-                labels: hewanLabels,
+                    data:
+                        Object.values(
+                            jenisHewan
+                        ),
 
-                datasets: [{
-
-                    label: 'Kasus berdasarkan hewan',
-
-                    data: hewanData,
-
-                    backgroundColor: [
-                        '#1d6b63',
+                    backgroundColor:[
+                        '#126b64',
                         '#e28b2c',
                         '#c94c4c',
-                        '#4d7ea8'
-                    ],
+                        '#4d7ea8',
+                        '#7a5c9e'
+                    ]
 
-                    borderWidth: 1
                 }]
+
             },
 
-            options: {
+            options:{
 
-                responsive: true,
+                responsive:true,
 
-                maintainAspectRatio: false,
+                maintainAspectRatio:false,
 
-                plugins: {
+                plugins:{
 
-                    legend: {
-                        position: 'bottom'
+                    legend:{
+                        position:'bottom'
                     }
+
                 }
+
             }
-        });
-    }
+
+        }
+
+    );
 
 
     /* =========================
-       GRAFIK WILAYAH PRIORITAS
+       WILAYAH PRIORITAS
     ========================= */
 
-    const chartPrioritas =
-        document.getElementById('chartPrioritas');
+    new Chart(
 
-    if (chartPrioritas) {
+        document.getElementById(
+            'chartPrioritas'
+        ),
 
-        new Chart(chartPrioritas, {
+        {
 
-            type: 'bar',
+            type:'bar',
 
-            data: {
+            data:{
 
                 labels:
                     wilayahPrioritas.map(
                         item => item.desa
                     ),
 
-                datasets: [{
+                datasets:[{
 
                     label:
                         'Kasus Wilayah Prioritas',
@@ -793,54 +1131,53 @@ fetch('./GHPR.csv')
                         ),
 
                     backgroundColor:
-                        '#c94c4c',
+                        '#c94c4c'
 
-                    borderWidth: 1
                 }]
+
             },
 
-            options: {
+            options:{
 
-                responsive: true,
+                responsive:true,
 
-                maintainAspectRatio: false,
+                maintainAspectRatio:false,
 
-                plugins: {
+                plugins:{
 
-                    legend: {
-                        display: true
+                    legend:{
+                        display:false
                     }
+
                 },
 
-                scales: {
+                scales:{
 
-                    y: {
+                    y:{
 
-                        beginAtZero: true,
+                        beginAtZero:true,
 
-                        ticks: {
-                            stepSize: 5
-                        },
+                        title:{
 
-                        title: {
-                            display: true,
-                            text: 'Jumlah Kasus'
+                            display:true,
+
+                            text:
+                                'Jumlah Kasus'
+
                         }
-                    },
 
-                    x: {
-
-                        title: {
-                            display: true,
-                            text: 'Wilayah Prioritas'
-                        }
                     }
+
                 }
+
             }
-        });
-    }
+
+        }
+
+    );
 
 })
+
 
 .catch(error => {
 
@@ -849,10 +1186,19 @@ fetch('./GHPR.csv')
         error
     );
 
-    document.querySelectorAll('.card .value')
+    document
+        .querySelectorAll(
+            '.card .value'
+        )
         .forEach(el => {
+
             el.textContent = '—';
+
         });
 
 });
+
 </script>
+
+</body>
+</html>
