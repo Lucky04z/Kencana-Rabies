@@ -58,7 +58,7 @@ body{
 ========================= */
 
 .container{
-    width:min(1180px,94%);
+    width:min(1400px,94%);
     margin:auto;
     padding:25px 0 40px;
 }
@@ -81,37 +81,41 @@ body{
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(5,1fr);
     gap:16px;
 }
 
 .card{
     background:white;
     border-radius:16px;
-    padding:20px;
+    padding:18px 14px;
     text-align:center;
     box-shadow:0 5px 18px rgba(0,0,0,.08);
     border:1px solid #e0ebea;
+    min-height:125px;
 }
 
 .card .icon{
-    font-size:30px;
+    font-size:38px;
+    margin-bottom:8px;
 }
 
 .card h3{
-    margin:8px 0 6px;
-    font-size:15px;
-    color:#526875;
+    margin:5px 0;
+    font-size:17px;
+    color:#123b5d;
 }
 
-.card .value{
-    font-size:28px;
-    font-weight:bold;
-    color:#126b64;
+.card .number{
+    font-size:30px;
+    font-weight:700;
+    color:#117a72;
 }
 
-.card small{
-    color:#71818a;
+.card p{
+    margin:3px 0;
+    color:#6b7f8c;
+    font-size:13px;
 }
 
 /* =========================
@@ -399,12 +403,19 @@ footer{
 <div class="cards">
 
     <div class="card">
-        <div class="icon">🩸</div>
+        <div class="icon">🐕</div>
         <h3>Total Kasus GHPR</h3>
-        <div class="value">—</div>
-        <small>Kasus tercatat</small>
+        <div class="value">111</div>
+        <small>Jan – Jun 2026</small>
     </div>
 
+    <div class="card">
+    <div class="icon">📈</div>
+    <h3>Rata-rata Kasus / Bulan</h3>
+    <div class="value">18,5</div>
+    <small>Jan – Jun 2026</small>
+</div>
+    
     <div class="card">
         <div class="icon">📍</div>
         <h3>Wilayah Terdampak</h3>
