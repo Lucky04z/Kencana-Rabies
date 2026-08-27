@@ -889,27 +889,32 @@ fetch('./GHPR.csv')
         );
 
 
-    /* DASHBOARD */
+   /* DASHBOARD */
 
-    const cards =
-        document.querySelectorAll(
-            '.card .value'
-        );
+const cards =
+    document.querySelectorAll(
+        '.card .value'
+    );
 
+if(cards.length >= 5){
 
-    if(cards.length >= 4){
+    cards[0].textContent =
+        totalKasus;
 
-        cards[0].textContent =
-            totalKasus;
+    cards[1].textContent =
+        (totalKasus / 6)
+        .toFixed(1)
+        .replace('.', ',');
 
-        cards[1].textContent =
-            wilayahTerdampak;
+    cards[2].textContent =
+        wilayahTerdampak;
 
-        cards[2].textContent =
-            wilayahPrioritas.length;
+    cards[3].textContent =
+        wilayahPrioritas.length;
 
-        cards[3].textContent =
-            'Jan–Jun 2026';
+    cards[4].textContent =
+        'Januari–Juni 2026';
+}
 
     }
 
